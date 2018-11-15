@@ -1,22 +1,30 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<ul class="collection">
-    <!--<li class="collection-item avatar">-->
-    <!--  <img src="https://fsmedia.imgix.net/32/9a/b3/70/a579/4464/acbf/c405cab3690a/deadpool-back-in-black-4.jpeg?auto=format%2Ccompress&w=800&h=800&crop=entropy&fit=crop" alt="" class="circle">-->
-    <!--  <span class="title">Title</span>-->
-    <!--  <p>First Line <br>-->
-    <!--     Second Line-->
-    <!--  </p>-->
-    <!--  <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
-    <!--</li>-->
-    {% for comic in new_comics_list %}
-    <li class="collection-item avatar">
-        <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}" height="100">
-        <span class="title">{{comic.comic_title}}</span>
-        <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-    </li>
-    {% endfor %}
-  </ul>
+{% extends 'base.html' %} {% block content %}
+<header>
+    <nav>
+        <div class="nav-wrapper black">
+            <a href="#" class="brand-logo right">Reading List</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="{{url_for('index')}}">Home</a></li>
+                <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
+                <li><a href="{{url_for('sign_in')}}">Sign In</a></li>
+                <li><a href="{{url_for('add_comics')}}">Add Comics</a></li>
+                <li><a href="">Manage List</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <!-- Add specific page content below! -->
+    <ul class="collection">
+        {% for comic in new_comics_list %}
+        <li class="collection-item avatar">
+            <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}" height="100">
+            <span class="title">{{comic.comic_title}}</span>
+            <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- End of specific page content. -->
+</div>
 
 {% endblock %}
