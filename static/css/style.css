@@ -1,0 +1,20 @@
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    color: #ffab40;
+    margin-right: 0;
+    -webkit-transition: color .3s ease;
+    transition: color .3s ease;
+    text-transform: uppercase;
+}
+
+.card .card-content {
+    padding: 24px 24px 0;
+    border-radius: 0 0 2px 2px;
+}
+
+.card .card-action {
+     border-top: 1px solid rgb(255,255,255); 
+}
+
+.card .card-action tr {
+    border-bottom: 1px solid rgb(255,255,255);
+}

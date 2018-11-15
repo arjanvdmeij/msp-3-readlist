@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Welcome</span>
+        <p>Here you can maintain a list of Marvel comics you want to read.<br> You can add, remove, or mark comics as read.</p>
+      </div>
+      <div class="card-action">
+        <table>
+          <tr>
+            <td><a href="{{url_for('sign_up')}}" class="left btn waves-effect waves-light green white-text">Sign Up</a></td>
+            <td><a href="{{url_for('sign_in')}}" class="right btn waves-effect waves-light blue-grey lighten-1 white-text">Sign In</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

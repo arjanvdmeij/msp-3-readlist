@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/materialize.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+    <title>Marvel Reading List</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper black">
+                <a href="#" class="brand-logo right">Reading List</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="{{url_for('index')}}">Home</a></li>
+                    <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
+                    <li><a href="{{url_for('sign_in')}}">Sign In</a></li>
+                    <li><a href="{{url_for('add_comics')}}">Add Comics</a></li>
+                    <li><a href="">Manage List</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+    <script src="{{url_for('static',filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/materialize.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='js/base.js')}}"></script>
+</body>
+
+</html>
