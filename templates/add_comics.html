@@ -15,14 +15,19 @@
                         </div>
                         <div class="card-stacked">
                             <div class="card-content no-paddy font-smaller blue-grey lighten-2 white-text">
-                                {{comic.comic_title}}<div>{{ comic_added }}</div>
+                                {{comic.comic_title}}
                             </div>
+                            {% if not comic.comic_id in check_list %}
                             <div class="card-action no-paddy blue-grey lighten-2 white-text">
-                                <a href="{{url_for('add_comic_to_list', comic_add=comic.comic_id)}}" 
-                                class="right waves-effect waves-light btn-flat btn-small blue-grey white-text"
-                                onclick="disableButton(this,'{{comic.comic_title}}')">
+                                <a href="{{url_for('add_comic_to_list', comic_add=comic.comic_id)}}" class="one-px-border right waves-effect waves-light btn-flat btn-small blue-grey white-text" onclick="disableButton(this,'{{comic.comic_title}}')">
                                     <i class="material-icons">add</i></a>
                             </div>
+                            {% else %}
+                            <div class="card-action no-paddy blue-grey lighten-2 white-text">
+                                <a href="{{url_for('add_comic_to_list', comic_add=comic.comic_id)}}" class="disabled one-px-border right waves-effect waves-light btn-flat btn-small blue-grey white-text" onclick="disableButton(this,'{{comic.comic_title}}')">
+                                    <i class="material-icons">add</i></a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
