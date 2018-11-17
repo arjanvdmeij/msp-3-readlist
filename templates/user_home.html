@@ -1,44 +1,42 @@
 {% extends 'base.html' %} {% block content %}
 <header>
   <div class="navbar-fixed">
-      <nav>
-    <div class="nav-wrapper blue-grey">
-      <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
-      <ul id="nav-mobile" class="right">
-        <li class="center">Logged in user: <strong>{{ session['user'] }}</strong></li>
-        <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small white blue-grey-text"><i class="material-icons right">clear</i>Log out</a></li>
-      </ul>
-    </div>
-  </nav>
-
+    <nav>
+      <div class="nav-wrapper blue-grey">
+        <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
+        <ul id="nav-mobile" class="right">
+          <li class="center">Logged in user: <strong>{{ session['user'] }}</strong></li>
+          <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">clear</i>Log out</a></li>
+        </ul>
+      </div>
+    </nav>
   </div>
 </header>
 <div class="wider container">
   <!-- Add specific page content below! -->
   <div class="row"></div>
   <div class="row">
-      <div class="col s2 no-paddy">
-          <!--<div class="col s12">-->
-          <div class="row">
-              <a class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
+    <div class="col s2 no-paddy">
+      <div class="row">
+        <a class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
                 <i class="material-icons right">list</i>View list</a>
-          </div>
-          <div class="row">
-              <a href="{{url_for('add_comics')}}" class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
+      </div>
+      <div class="row">
+        <a href="{{url_for('add_comics')}}" class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
                 <i class="material-icons right">add</i>Add Comics</a>
-          </div>
-          <div class="row">
-              <a class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
+      </div>
+      <div class="row">
+        <a class="full-width waves-effect waves-light btn-small blue-grey white-text one-px-border">
                 <i class="material-icons right">create</i>Manage List</a>
-          </div>
       </div>
-      <div class="col s10 no-paddy">
-            {% block user_content %} {% endblock %}
-      </div>
+    </div>
+    <div class="col s10 no-paddy">
+      {% block user_content %} {% endblock %}
+    </div>
   </div>
-  
 
-<!-- End of specific page content. -->
+
+  <!-- End of specific page content. -->
 </div>
 
 {% endblock %}

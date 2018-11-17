@@ -1,17 +1,16 @@
 {% extends 'base.html' %} {% block content %}
 <header>
-    <nav>
-        <div class="nav-wrapper blue-grey">
-            <a href="#" class="brand-logo left"></a>
-            <ul id="nav-mobile" class="right">
-                <li><a href="{{url_for('index')}}">Home</a></li>
-                <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
-                <li class="active"><a href="{{url_for('sign_in')}}">Sign In</a></li>
-                <!--<li class="disabled"><a href="{{url_for('add_comics')}}">Add Comics</a></li>-->
-                <!--<li class="disabled"><a href="">Manage List</a></li>-->
-            </ul>
-        </div>
-    </nav>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper blue-grey">
+                <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
+                <ul id="nav-mobile" class="right">
+                    <li><a href="{{url_for('sign_up')}}" class="waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
+                    <li><a href="{{url_for('sign_in')}}" class="disabled waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 </header>
 <div class="wider container">
     <!-- Add specific page content below! -->

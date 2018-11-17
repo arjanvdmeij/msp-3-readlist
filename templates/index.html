@@ -1,38 +1,36 @@
 {% extends 'base.html' %} {% block content %}
 <header>
-  <nav>
-    <div class="nav-wrapper blue-grey">
-      <a href="#" class="brand-logo left">{{ session['user'] }}</a>
-      <ul id="nav-mobile" class="right">
-        <li><a href="{{url_for('index')}}">Home</a></li>
-        <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
-        <li><a href="{{url_for('sign_in')}}">Sign In</a></li>
-        <!--<li><a href="{{url_for('add_comics')}}">Add Comics</a></li>-->
-        <!--<li><a href="">Manage List</a></li>-->
-      </ul>
-    </div>
-  </nav>
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper blue-grey">
+        <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
+        <ul id="nav-mobile" class="right">
+          <li><a href="{{url_for('sign_up')}}" class="waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
+          <li><a href="{{url_for('sign_in')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </header>
 <div class="wider container">
   <!-- Add specific page content below! -->
   <div class="row">
     <div class="col s8 offset-s2">
       <div class="card">
-        <div class="card-content blue-grey lighten-5">
+        <div class="card-content blue-grey lighten-3">
           <div class="index-img">
             <img src="{{url_for('static', filename='images/index-img.jpg')}}">
           </div>
         </div>
       </div>
-      <div class="card blue-grey lighten-1">
+      <div class="card blue-grey lighten-3">
         <div class="card-content white-text">
           <span class="card-title center">About</span>
           <div class="row no-btm-mgn">
             <div class="col s12">
               <div class="card-panel">
                 <span class="blue-grey-text"><span class="white red-text center"><h6>This site was not made for mobile phones. Do put tablets in landscape.</h6></span> On this site, after registering, you can maintain a list of comics you want to read.
-                  Every week, a set of new comics is available for you to add. Once you're done reading a comic, you can mark it as read.
-                  Build up your own reading to-do list, and create your own archive of comics read!
+                Every week, a set of new comics is available for you to add. Once you're done reading a comic, you can mark it as read. Build up your own reading to-do list, and create your own archive of comics read!
                 </span>
               </div>
             </div>
@@ -41,11 +39,11 @@
 
       </div>
       <div class="card">
-        <div class="card-action blue-grey lighten-5">
+        <div class="card-action blue-grey lighten-3">
           <div class="row no-btm-mgn">
             <div class="col s12">
-              <a href="{{url_for('sign_up')}}" class="left btn-small waves-effect waves-light green white-text"><i class="material-icons left">how_to_reg</i> Sign Up</a>
-              <a href="{{url_for('sign_in')}}" class="right btn-small waves-effect waves-light blue-grey lighten-1 white-text"><i class="material-icons right">person</i> Sign In</a>
+              <a href="{{url_for('sign_up')}}" class="left btn-small waves-effect waves-light green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a>
+              <a href="{{url_for('sign_in')}}" class="right btn-small waves-effect waves-light blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a>
             </div>
           </div>
         </div>
