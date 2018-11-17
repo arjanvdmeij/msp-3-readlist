@@ -1,20 +1,62 @@
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
-    color: #ffab40;
     margin-right: 0;
-    -webkit-transition: color .3s ease;
-    transition: color .3s ease;
-    text-transform: uppercase;
 }
 
-.card .card-content {
-    padding: 24px 24px 0;
-    border-radius: 0 0 2px 2px;
+.one-px-border {
+    border: 1px solid #ddd;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.mini-margin {
+    margin: 5px 0 5px 0 !important;
+}
+
+.no-paddy {
+    padding: 0 0 0 4px !important;
+    width: 100%;
+}
+
+.no-btm-mgn {
+    margin-bottom: 0 !important;
+}
+
+.font-smaller {
+    font-size: 0.8rem;
+}
+
+.wider {
+    width: 98% !important;
+}
+
+.full-width {
+    width: 170px;
 }
 
 .card .card-action {
-     border-top: 1px solid rgb(255,255,255); 
+     border-top: 0;
 }
 
-.card .card-action tr {
-    border-bottom: 1px solid rgb(255,255,255);
+.card-content .index-img img {
+    max-width: 100%;
+    border-radius: 2px;
+    border: 2px solid #607d8b;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]){
+    border-bottom: 1px solid #37474f;
+    -webkit-box-shadow: 0 1px 0 0 #37474f;
+    box-shadow: 0 1px 0 0 #37474f;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly])+label,
+input[type=password]:not(.browser-default):focus:not([readonly])+label{
+    color: #37474f;
+}
+
+.input-field .prefix.active {
+  color: #37474f;
 }

@@ -1,51 +1,50 @@
 {% extends 'base.html' %} {% block content %}
 <header>
     <nav>
-        <div class="nav-wrapper black">
-            <a href="#" class="brand-logo right">Reading List</a>
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <div class="nav-wrapper blue-grey">
+            <a href="#" class="brand-logo left"></a>
+            <ul id="nav-mobile" class="right">
                 <li><a href="{{url_for('index')}}">Home</a></li>
                 <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
-                <li><a href="{{url_for('sign_in')}}">Sign In</a></li>
-                <li><a href="{{url_for('add_comics')}}">Add Comics</a></li>
-                <li><a href="">Manage List</a></li>
+                <li class="active"><a href="{{url_for('sign_in')}}">Sign In</a></li>
+                <!--<li class="disabled"><a href="{{url_for('add_comics')}}">Add Comics</a></li>-->
+                <!--<li class="disabled"><a href="">Manage List</a></li>-->
             </ul>
         </div>
     </nav>
 </header>
-<div class="container">
+<div class="wider container">
     <!-- Add specific page content below! -->
     <div class="row">
         <div class="col s8 offset-s2">
             <div class="card">
-                <div class="card-content">
+                <div class="card-content blue-grey lighten-5">
+                    <div class="index-img">
+                        <img src="{{url_for('static', filename='images/index-img.jpg')}}">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content blue-grey-text text-darken-2">
                     <span class="card-title">Sign In</span>
                     <div class="row">
                         <form action="{{url_for('sign_in_submit')}}" method="POST" class="col s12">
-                            <div class="row">
+                            <div class="row no-btm-mgn">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">account_circle</i>
-                                    <input placeholder="enter your user name" name="uname" id="uname" type="text" class="validate">
-                                    <label for="uname">Username</label>
+                                    <input placeholder="enter your user name" id="uname" name="uname" type="text" value="{{ if_pw_error }}">
+                                    <label for="uname">Username<span class="red-text"><b>{{ u_error }}</b></span></label>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">lock</i>
-                                    <input placeholder="enter your password" name="pwd" id="pwd" type="password" class="validate">
-                                    <label for="pwd">Password</label>
+                                    <input placeholder="enter your password" id="pwd" name="pwd" type="password">
+                                    <label for="pwd">Password<span class="red-text"><b>{{ p_error }}</b></span></label>
                                 </div>
-                            </div>
-                            <div class="card-action">
-                                <table>
-                                    <tr>
-                                        <td class="center">
-                                            <button class="btn waves-effect waves-light green white-text" type="submit" name="action">
-                                            Sign Up<i class="material-icons right">create</i>
-                                        </button>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <span class="col s12 center">
+                                    <button class="btn-small waves-effect waves-light blue-grey white-text" type="submit" name="action">
+                                        Sign In<i class="material-icons right">person</i>
+                                    </button>
+                                </span>
                             </div>
                         </form>
                     </div>

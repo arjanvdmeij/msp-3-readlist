@@ -1,30 +1,58 @@
-{% extends 'base.html' %} {% block content %}
-<header>
-    <nav>
-        <div class="nav-wrapper black">
-            <a href="#" class="brand-logo right">Reading List</a>
-            <ul id="nav-mobile" class="left hide-on-med-and-down">
-                <li><a href="{{url_for('index')}}">Home</a></li>
-                <li><a href="{{url_for('sign_up')}}">Sign Up</a></li>
-                <li><a href="{{url_for('sign_in')}}">Sign In</a></li>
-                <li><a href="{{url_for('add_comics')}}">Add Comics</a></li>
-                <li><a href="">Manage List</a></li>
-            </ul>
+{% extends 'user_home.html' %} {% block user_content %}
+<!-- Add specific page content below! -->
+<ul class="collapsible no-margin">
+    <li class="active">
+        <div class="collapsible-header blue-grey white-text">
+            <i class="material-icons">new_releases</i>This Week's New Comics
         </div>
-    </nav>
-</header>
-<div class="container">
-    <!-- Add specific page content below! -->
-    <ul class="collection">
-        {% for comic in new_comics_list %}
-        <li class="collection-item avatar">
-            <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}" height="100">
-            <span class="title">{{comic.comic_title}}</span>
-            <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-        </li>
-        {% endfor %}
-    </ul>
-    <!-- End of specific page content. -->
-</div>
-
+        <div class="collapsible-body blue-grey lighten-3">
+            <div class="row">
+                {% for comic in new_comics_list %}
+                <div class="col s12 m4">
+                    <div class="card horizontal mini-margin">
+                        <div class="card-image">
+                            <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}" height="75">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content no-paddy font-smaller blue-grey lighten-2 white-text">
+                                {{comic.comic_title}}<div>{{ comic_added }}</div>
+                            </div>
+                            <div class="card-action no-paddy blue-grey lighten-2 white-text">
+                                <a href="{{url_for('add_comic_to_list', comic_add=comic.comic_id)}}" 
+                                class="right waves-effect waves-light btn-flat btn-small blue-grey white-text"
+                                onclick="disableButton(this,'{{comic.comic_title}}')">
+                                    <i class="material-icons">add</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="collapsible-header blue-grey white-text">
+            <i class="material-icons">low_priority</i>All (Older) Comics
+        </div>
+        <div class="collapsible-body blue-grey lighten-3">
+            <div class="row">
+                {% for comic in old_comics_list %}
+                <div class="col s12 m4">
+                    <div class="card horizontal mini-margin">
+                        <div class="card-image">
+                            <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}" height="75">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content no-paddy font-smaller blue-grey lighten-2 white-text">
+                                {{comic.comic_title}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+</ul>
+<!-- End of specific page content. -->
 {% endblock %}
