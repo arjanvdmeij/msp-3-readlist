@@ -33,27 +33,42 @@ def user_home():
     
 @app.route('/add_comics')
 def add_comics():
+    new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") })
+    user_comics=mongo.db.user_comic_list.find({ "user_name" : session['user'] })
+    check_list=[]
+    for x in user_comics:
+        check_list.append(x['comic_id'])
+    print(check_list)
     return render_template('add_comics.html',
-    new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y")}),
-    old_comics_list=mongo.db.comics.find({ "cw_add_db" : { "$ne" : datetime.date.today().strftime("%V%Y")}}))
+    new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") }),
+    old_comics_list=mongo.db.comics.find({ "cw_add_db" : { "$ne" : datetime.date.today().strftime("%V%Y") } }),
+    check_list=check_list)
     
 @app.route('/add_comic_to_list/<comic_add>')
 def add_comic_to_list(comic_add):
-    print(comic_add)
-    comic_to_add = mongo.db.comics.find_one({ "comic_id" : int(comic_add) })
-    print('\n')
-    print(comic_to_add['comic_title'])
-    print('\n')
-    return redirect('add_comids',code=204) #redirect(url_for('add_comics'))
+    if not mongo.db.user_comic_list.find_one({ "comic_id" : int(comic_add) }):
+        print(comic_add)
+        comic_to_add = mongo.db.comics.find_one({ "comic_id" : int(comic_add) })
+        user_db_entry = mongo.db.users.find_one({ "user_name" : session['user']})
+        user_list_identifier = user_db_entry['_id']
+        new_comic = { "user_list_identifier": user_list_identifier,
+                      "user_name" : session['user'],
+                      "comic_title" : comic_to_add['comic_title'],
+                      "comic_id" : comic_to_add['comic_id'],
+                      "comic_series_id" : comic_to_add['comic_series_id'],
+                      "comic_image" : comic_to_add['comic_image'],
+                      "cw_add_db" : comic_to_add['cw_add_db'] }
+        mongo.db.user_comic_list.insert_one(new_comic)
+        print('\n')
+        print('Comic Added')
+        print('\n')
+    else:
+        print('\n')
+        print('Comic Already In User\'s List')
+        print('\n')
     
-@app.route('/edit_task/<task_id>')
-def edit_task(task_id):
-    _task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
-    _categories = mongo.db.categories.find()
-    category_list = [category for category in _categories]
-    return render_template("edittask.html", task=_task, categories=category_list)
-
-
+    return redirect('add_comids',code=204) 
+    
 
 @app.route('/sign_up', methods=["GET","POST"])
 def sign_up():
