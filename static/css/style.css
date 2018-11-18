@@ -34,6 +34,8 @@
     margin-left: 100px;
 }
 
+/* -------------------------------------- Overrides for Materialize defaults: */
+
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     margin-right: 0;
 }

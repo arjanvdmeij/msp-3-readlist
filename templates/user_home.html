@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 <header>
   <div class="navbar-fixed">
     <nav>
@@ -6,7 +7,8 @@
         <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
         <ul id="nav-mobile" class="right">
           {% block link_change %}
-          <li><a href="{{url_for('add_comics')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">add</i>Add Comics</a> {% endblock %}
+          <li><a href="{{url_for('add_comics')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">add</i>Add Comics</a> 
+          {% endblock %}
             <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">clear</i>Log out</a></li>
         </ul>
         <ul id="nav-mobile" class="left left-margin-100">
@@ -17,7 +19,6 @@
   </div>
 </header>
 <div class="wider container">
-  <!-- Add specific page content below! -->
   <div class="row"></div>
   <div class="row">
     <div class="col s12 no-paddy">
@@ -82,13 +83,8 @@
           </div>
         </li>
       </ul>
-
       {% endblock %}
     </div>
   </div>
-
-
-  <!-- End of specific page content. -->
 </div>
-
 {% endblock %}
