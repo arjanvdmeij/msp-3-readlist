@@ -25,7 +25,7 @@ def main():
     new_comics_list_full_tree = new_comics_list_raw.json()
     new_comics_short_tree = new_comics_list_full_tree['data']['results']
 
-    #new_comics.delete_many({})  #--------- Commented, no need to remove
+    #new_comics.delete_many({})  #--------- Commented, no need to remove all, but leave just in case
     x=0
     while x < len(new_comics_short_tree):
         comic_id = new_comics_short_tree[x]['id']
