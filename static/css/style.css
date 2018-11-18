@@ -1,7 +1,3 @@
-.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
-    margin-right: 0;
-}
-
 .one-px-border {
     border: 1px solid #ddd;
 }
@@ -10,21 +6,21 @@
     margin: 0 !important;
 }
 
-.mini-margin {
-    margin: 5px 0 5px 0 !important;
-}
-
 .no-paddy {
-    padding: 0 0 0 4px !important;
-    width: 100%;
+    padding: 0 !important;
 }
 
 .no-btm-mgn {
     margin-bottom: 0 !important;
 }
 
-.font-smaller {
-    font-size: 0.8rem;
+.title-align {
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 5px 10px 0 !important;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 .wider {
@@ -32,31 +28,55 @@
 }
 
 .full-width {
-    width: 170px;
+    width: 100%;
+}
+.left-margin-100 {
+    margin-left: 100px;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    margin-right: 0;
 }
 
 .card .card-action {
-     border-top: 0;
+    border-top: 0;
 }
 
 .card-content .index-img img {
     max-width: 100%;
     border-radius: 2px;
-    border: 2px solid #607d8b;
+    border: 1px solid #ddd;
+}
+
+.card .card-image img {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
 }
 
 input[type=text]:not(.browser-default):focus:not([readonly]),
-input[type=password]:not(.browser-default):focus:not([readonly]){
+input[type=password]:not(.browser-default):focus:not([readonly]) {
     border-bottom: 1px solid #37474f;
     -webkit-box-shadow: 0 1px 0 0 #37474f;
     box-shadow: 0 1px 0 0 #37474f;
 }
 
 input[type=text]:not(.browser-default):focus:not([readonly])+label,
-input[type=password]:not(.browser-default):focus:not([readonly])+label{
+input[type=password]:not(.browser-default):focus:not([readonly])+label {
     color: #37474f;
 }
 
 .input-field .prefix.active {
-  color: #37474f;
+    color: #37474f;
+}
+
+.disabled.btn-small,
+.btn-small.disabled,
+.btn-flat.disabled,
+.btn-small:disabled,
+.btn-small:disabled,
+.btn-small[disabled],
+.btn-small[disabled] {
+    background-color: #cfd8dc !important;
+    color: #607d8b !important;
 }
