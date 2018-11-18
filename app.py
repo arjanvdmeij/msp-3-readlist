@@ -26,28 +26,63 @@ def index():
 @app.route('/user_home')
 def user_home():
     if 'user' in session:
-        return render_template('user_home.html')
+        user_unread_list = mongo.db.user_comic_list.find({ "user_name" : session['user'],
+                                                          "comic_status" : { "$eq" : "unread" } })
+        user_read_list = mongo.db.user_comic_list.find({ "user_name" : session['user'],
+                                                          "comic_status" : { "$eq" : "read" } })
+
+        return render_template('user_home.html',
+                                user_unread=user_unread_list,
+                                user_read=user_read_list)
     else:
         return render_template('index.html')
+
+        
+@app.route('/mark_comic_read/<mark_comic_id>')
+def mark_comic_read(mark_comic_id):
+    if 'user' in session:
+        comic_to_update = mongo.db.user_comic_list.find_one({ "_id" : ObjectId(mark_comic_id)})
+        print(comic_to_update)
+        mongo.db.user_comic_list.update(
+            {"_id": ObjectId(mark_comic_id)},
+            {
+                "comic_series_id": comic_to_update['comic_series_id'],
+                "comic_id": comic_to_update['comic_id'],
+                "user_list_identifier": comic_to_update['user_list_identifier'],
+                "comic_status": "read",
+                "cw_add_db": comic_to_update['cw_add_db'],
+                "comic_title": comic_to_update['comic_title'],
+                "user_name": session['user'],
+                "comic_image": comic_to_update['comic_image'],
+                "date_read": datetime.date.today().strftime("%d%m%Y")
+            })
+        return redirect('user_home')
+    else:
+        return render_template('index.html')
+
+
+@app.route('/comic_delete/<delete_id>')
+def comic_delete(delete_id):
+    mongo.db.user_comic_list.remove({'_id': ObjectId(delete_id)})
+    return redirect('user_home')
 
     
 @app.route('/add_comics')
 def add_comics():
-    new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") })
-    user_comics=mongo.db.user_comic_list.find({ "user_name" : session['user'] })
-    check_list=[]
-    for x in user_comics:
-        check_list.append(x['comic_id'])
-    print(check_list)
-    return render_template('add_comics.html',
-    new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") }),
-    old_comics_list=mongo.db.comics.find({ "cw_add_db" : { "$ne" : datetime.date.today().strftime("%V%Y") } }),
-    check_list=check_list)
+    if 'user' in session:
+        new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") })
+        old_comics_list=mongo.db.comics.find({ "cw_add_db" : { "$ne" : datetime.date.today().strftime("%V%Y") } })
+        user_comics=mongo.db.user_comic_list.find({ "user_name" : session['user'] })
+        check = [i['comic_id'] for i in user_comics]
+        return render_template('add_comics.html',
+        new_comics=new_comics_list, old_comics=old_comics_list, check_list=check)
+    else:
+        return render_template('index.html')
+
     
 @app.route('/add_comic_to_list/<comic_add>')
 def add_comic_to_list(comic_add):
-    if not mongo.db.user_comic_list.find_one({ "comic_id" : int(comic_add) }):
-        print(comic_add)
+    if 'user' in session:
         comic_to_add = mongo.db.comics.find_one({ "comic_id" : int(comic_add) })
         user_db_entry = mongo.db.users.find_one({ "user_name" : session['user']})
         user_list_identifier = user_db_entry['_id']
@@ -57,25 +92,20 @@ def add_comic_to_list(comic_add):
                       "comic_id" : comic_to_add['comic_id'],
                       "comic_series_id" : comic_to_add['comic_series_id'],
                       "comic_image" : comic_to_add['comic_image'],
-                      "cw_add_db" : comic_to_add['cw_add_db'] }
+                      "cw_add_db" : comic_to_add['cw_add_db'],
+                      "comic_status" : "unread"}
         mongo.db.user_comic_list.insert_one(new_comic)
-        print('\n')
-        print('Comic Added')
-        print('\n')
+        return redirect('add_comics',code=204)
     else:
-        print('\n')
-        print('Comic Already In User\'s List')
-        print('\n')
-    
-    return redirect('add_comids',code=204) 
-    
+        return render_template('index.html')
 
-@app.route('/sign_up', methods=["GET","POST"])
+
+@app.route('/sign_up')
 def sign_up():
     return render_template('sign_up.html')
     
 
-@app.route('/sign_up_submit', methods=["GET","POST"])
+@app.route('/sign_up_submit', methods=["POST"])
 def sign_up_submit():
     users = mongo.db.users
         
