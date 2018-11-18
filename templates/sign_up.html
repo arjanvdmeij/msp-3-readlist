@@ -2,7 +2,7 @@
 <header>
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper blue-grey">
+            <div class="nav-wrapper blue-grey one-px-border">
                 <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
                 <ul id="nav-mobile" class="right">
                     <li><a href="{{url_for('sign_up')}}" class="disabled waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
@@ -17,40 +17,42 @@
     <div class="row">
         <div class="col s8 offset-s2">
             <div class="card">
-                <div class="card-content blue-grey lighten-5">
+                <div class="card-content blue-grey lighten-3 one-px-border">
                     <div class="index-img">
                         <img src="{{url_for('static', filename='images/index-img.jpg')}}">
                     </div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-content blue-grey-text text-darken-2">
-                    <span class="card-title">Sign Up</span>
-                    <div class="row">
-                        <form action="{{url_for('sign_up_submit')}}" method="POST" class="col s12">
-                            <div class="row no-btm-mgn">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">account_circle</i>
-                                    <input placeholder="enter a user name" id="uname" name="uname" type="text" value="{{ if_pw_error }}">
-                                    <label for="uname">Username<span class="red-text"><b>{{ u_error }}</b></span></label>
-                                </div>
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">lock</i>
-                                    <input placeholder="enter a password" id="pwd" name="pwd" type="password">
-                                    <label for="pwd">Password<span class="red-text"><b>{{ p_error }}</b></span></label>
-                                </div>
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">lock</i>
-                                    <input placeholder="re-enter password" id="pwd_check" name="pwd_check" type="password">
-                                    <label for="pwd_check">Password Check<span class="red-text"><b>{{ p_error }}</b></span></label>
-                                </div>
-                                <span class="col s12 center">
+                <div class="card-content blue-grey lighten-3 blue-grey-text text-darken-2 one-px-border">
+                    <div class="card-panel">
+                        <span class="card-title">Sign Up</span>
+                        <div class="row">
+                            <form action="{{url_for('sign_up_submit')}}" method="POST" class="col s12">
+                                <div class="row no-btm-mgn">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input placeholder="enter a user name" id="uname" name="uname" type="text" value="{{ if_pw_error }}">
+                                        <label for="uname">Username<span class="red-text"><b>{{ u_error }}</b></span></label>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">lock</i>
+                                        <input placeholder="enter a password" id="pwd" name="pwd" type="password">
+                                        <label for="pwd">Password<span class="red-text"><b>{{ p_error }}</b></span></label>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">lock</i>
+                                        <input placeholder="re-enter password" id="pwd_check" name="pwd_check" type="password">
+                                        <label for="pwd_check">Password Check<span class="red-text"><b>{{ p_error }}</b></span></label>
+                                    </div>
+                                    <span class="col s12 center">
                                     <button class="btn-small waves-effect waves-light green white-text" type="submit" name="action">
                                         Sign Up<i class="material-icons right">how_to_reg</i>
                                     </button>
                                 </span>
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
