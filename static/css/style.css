@@ -1,3 +1,16 @@
+.center-checkbox {
+    display: grid;
+    width: 100%;
+    border: 1px solid #ddd;
+    text-align: right;
+    padding-top: 3px;
+}
+
+.smaller-font {
+    font-size: 0.9rem;
+    margin-right: 0.45rem;
+}
+
 .one-px-border {
     border: 1px solid #ddd;
 }
@@ -6,16 +19,16 @@
     margin: 0 !important;
 }
 
-.no-paddy {
+.no-padding {
     padding: 0 !important;
 }
 
-.no-btm-mgn {
+.no-bottom-margin {
     margin-bottom: 0 !important;
 }
 
 .title-align {
-    font-size: 1.3rem;
+    font-size: 0.9rem;
     text-align: center;
     padding: 5px 10px 0 !important;
     border-left: 1px solid #ddd;
@@ -30,8 +43,9 @@
 .full-width {
     width: 100%;
 }
-.left-margin-100 {
-    margin-left: 100px;
+
+.left-margin-80 {
+    margin-left: 80px;
 }
 
 /* -------------------------------------- Overrides for Materialize defaults: */
@@ -81,4 +95,19 @@ input[type=password]:not(.browser-default):focus:not([readonly])+label {
 .btn-small[disabled] {
     background-color: #cfd8dc !important;
     color: #607d8b !important;
+}
+
+[type="checkbox"]+span:not(.lever):before,
+[type="checkbox"]:not(.filled-in)+span:not(.lever):after {
+    border: 2px solid #ffffff;
+}
+
+[type="checkbox"]:checked:disabled+span:before {
+    border-right: 2px solid rgba(76, 175, 80, 0.42);
+    border-bottom: 2px solid rgba(76, 175, 80, 0.42);
+}
+
+[type="checkbox"]:checked+span:not(.lever):before {
+    border-right: 2px solid #4caf50  ;
+    border-bottom: 2px solid #4caf50  ;
 }
