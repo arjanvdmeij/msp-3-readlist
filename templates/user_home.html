@@ -1,90 +1,66 @@
-{% extends 'base.html' %} 
-{% block content %}
-<header>
-  <div class="navbar-fixed">
-    <nav>
-      <div class="nav-wrapper blue-grey">
-        <a href="{{url_for('index')}}" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">home</i></a>
-        <ul id="nav-mobile" class="right">
-          {% block link_change %}
-          <li><a href="{{url_for('add_comics')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">add</i>Add Comics</a> 
-          {% endblock %}
-            <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons right">clear</i>Log out</a></li>
-        </ul>
-        <ul id="nav-mobile" class="left left-margin-100">
-          <li>Current user: <strong>{{ session['user'] }}</strong></li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-</header>
+{% extends 'base.html' %} {% block nav_content %}
+
+<ul id="nav-mobile" class="right">
+  <li><a href="{{url_for('user_home')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
+  <li><a href="{{url_for('add_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics To List</a></li>
+  <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">sign out</a></li>
+</ul>
+<ul id="nav-mobile" class="left left-margin-80">
+  <li><span class="blue-grey-text text-lighten-3">Current user: </span><strong>{{ session['user'] }}</strong></li>
+</ul>
+
+{% endblock %} {% block content %}
+
 <div class="wider container">
   <div class="row"></div>
   <div class="row">
-    <div class="col s12 no-paddy">
+    <div class="col s12 no-padding">
       {% block user_content %}
-      <ul class="collapsible no-margin">
-        <li class="active">
-          <div class="collapsible-header blue-grey white-text">
-            <i class="material-icons">list</i>Your Unread Comics
-          </div>
-          <div class="collapsible-body blue-grey lighten-3">
-            <div class="row">
-              {% for comic in user_unread %}
-              <div class="col s12 m4">
-                <div class="card horizontal">
-                  <div class="card-image">
-                    <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}">
+      <div class="col s6 offset-s3">
+        <div class="card-panel no-padding blue-grey lighten-1 no-margin one-px-border">
+          <table>
+            <tr>
+              <td class="center"><a href="{{url_for('user_home')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My unread</a></td>
+              <td class="center"><a href="{{url_for('read_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My read</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row"></div>
+      <div class="card blue-grey lighten-1 no-margin one-px-border">
+        <div class="card-content white-text">
+          <span class="card-title center blue-grey z-depth-1 one-px-border">Unread Comics List</div></span>
+          <div class="row no-margin">
+            {% for comic in user_unread %}
+            <div id="{{comic.comic_id}}-card" class="col s12 m4">
+              <div class="card horizontal">
+                <div class="card-image">
+                  <a href="{{comic.comic_image_fs}}" data-lightbox="Image-{{comic.comic_id}}-img" data-title="{{comic.comic_title}}"><img src="{{comic.comic_image}}" height="120" alt="{{comic.comic_title}}"></a>
+                </div>
+                <div class="card-stacked">
+                  <div class="flip-colour-{{comic.comic_id}} card-content no-padding title-align blue-grey lighten-2 white-text">
+                    {{comic.comic_title}}
                   </div>
-                  <div class="card-stacked">
-                    <div class="card-content no-paddy title-align blue-grey lighten-2 white-text">
-                      {{comic.comic_title}}
-                    </div>
-                    <div class="card-action no-paddy blue-grey lighten-2 white-text">
-                      <a href="{{url_for('mark_comic_read', mark_comic_id=comic._id)}}" class="full-width one-px-border right waves-effect waves-light btn-flat btn-small blue-grey white-text" onclick="markAsRead('{{comic.comic_title}}')">
-                          <i class="material-icons left">remove_circle_outline</i>Mark as read
-                      </a>
-                    </div>
+                  <div class="flip-colour-{{comic.comic_id}} card-action no-padding blue-grey lighten-2 white-text">
+                    <span class="center-checkbox blue-grey">
+                                    <form class="right" action="{{url_for('mark_comic_read')}}" method="POST">
+                                    <span id="cb-text-{{comic.comic_id}}" class="white-text smaller-font">Mark As Read</span>
+                    <label for="{{comic.comic_id}}">
+                                        <input type="checkbox" class="markCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
+                                        <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span>
+                                    </label>
+                    </form>
+                    </span>
                   </div>
+
                 </div>
               </div>
-              {% endfor %}
             </div>
+            {% endfor %}
           </div>
-        </li>
-      </ul>
-      <ul class="collapsible no-margin">
-        <li class="active">
-          <div class="collapsible-header blue-grey white-text">
-            <i class="material-icons">list</i>Your Read Comics
-          </div>
-          <div class="collapsible-body blue-grey lighten-3">
-            <div class="row">
-              {% for comic in user_read %}
-              <div class="col s12 m4">
-                <div class="card horizontal">
-                  <div class="card-image">
-                    <img src="{{comic.comic_image}}" alt="{{comic.comic_title}}">
-                  </div>
-                  <div class="card-stacked">
-                    <div class="card-content no-paddy title-align blue-grey lighten-2 white-text">
-                      {{comic.comic_title}}
-                    </div>
-                    <div class="card-action no-paddy blue-grey lighten-2 white-text">
-                      <a href="{{url_for('comic_delete', delete_id=comic._id)}}" class="full-width one-px-border right waves-effect waves-light btn-flat btn-small blue-grey white-text" onclick="removeFromList('{{comic.comic_title}}')">
-                          <i class="material-icons left">delete_forever</i>Delete from list
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-        </li>
-      </ul>
-      {% endblock %}
+        </div>
+        {% endblock%}
+      </div>
     </div>
   </div>
-</div>
-{% endblock %}
+  {% endblock %}
