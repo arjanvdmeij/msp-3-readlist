@@ -1,0 +1,47 @@
+{% extends 'user_home.html' %} {% block user_content %}
+<!--  TEMP  -->
+<div class="col s6 offset-s3">
+    <div class="card-panel no-padding blue-grey lighten-1 no-margin one-px-border">
+        <table>
+            <tr>
+                <td class="center"><a href="{{url_for('add_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">New Releases</a></td>
+                <td class="center"><a href="{{url_for('add_comics_all')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">All Releases</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row"></div>
+<div class="card blue-grey lighten-1 no-margin one-px-border">
+    <div class="card-content white-text">
+        <span class="card-title center blue-grey z-depth-1 one-px-border">All Releases</div></span>
+        <div class="row no-margin">
+            {% for comic in all_comics %} {% if not comic.comic_id in check_list %}
+            <div id="{{comic.comic_id}}-card" class="col s12 m4">
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <a href="{{comic.comic_image_fs}}" data-lightbox="Image-{{comic.comic_id}}-img" data-title="{{comic.comic_title}}"><img src="{{comic.comic_image}}" height="120" alt="{{comic.comic_title}}"></a>
+                    </div>
+                    <div class="card-stacked">
+                        <div class="flip-colour-{{comic.comic_id}} card-content no-padding title-align blue-grey lighten-2 white-text">
+                            {{comic.comic_title}}
+                        </div>
+                        <div class="flip-colour-{{comic.comic_id}} card-action no-padding blue-grey lighten-2 white-text">
+                            <span class="center-checkbox blue-grey">
+                            <form class="right" action="{{url_for('add_to_list')}}" method="POST">
+                                <span id="cb-text-{{comic.comic_id}}" class="white-text smaller-font">Add To List</span>
+                            <label for="{{comic.comic_id}}">
+                                        <input type="checkbox" class="addCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
+                                        <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span>
+                                    </label>
+                            </form>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %} {% endfor %}
+        </div>
+    </div>
+</div>
+<!--  TEMP  -->
+{% endblock %}
