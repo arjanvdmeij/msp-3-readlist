@@ -1,5 +1,5 @@
 import os, config, requests, json, time, datetime
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, jsonify
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,62 +28,86 @@ def user_home():
     if 'user' in session:
         user_unread_list = mongo.db.user_comic_list.find({ "user_name" : session['user'],
                                                           "comic_status" : { "$eq" : "unread" } })
-        user_read_list = mongo.db.user_comic_list.find({ "user_name" : session['user'],
-                                                          "comic_status" : { "$eq" : "read" } })
-
+        
         return render_template('user_home.html',
-                                user_unread=user_unread_list,
-                                user_read=user_read_list)
+                                user_unread=user_unread_list)
     else:
         return render_template('index.html')
 
-        
-@app.route('/mark_comic_read/<mark_comic_id>')
-def mark_comic_read(mark_comic_id):
+@app.route('/read_comics')
+def read_comics():
     if 'user' in session:
-        comic_to_update = mongo.db.user_comic_list.find_one({ "_id" : ObjectId(mark_comic_id)})
-        print(comic_to_update)
+        user_read_list = mongo.db.user_comic_list.find({ "user_name" : session['user'],
+                                                          "comic_status" : { "$eq" : "read" } })
+        return render_template('read_comics.html',
+                                user_read=user_read_list)
+
+        
+@app.route('/mark_comic_read', methods=['POST'])
+def mark_comic_read():
+    if 'user' in session:
+        posted = request.json
+        comic_to_update = mongo.db.user_comic_list.find_one({ "_id" : ObjectId(posted['_id']) })
         mongo.db.user_comic_list.update(
-            {"_id": ObjectId(mark_comic_id)},
+            {"_id": ObjectId(posted['_id'])},
             {
                 "comic_series_id": comic_to_update['comic_series_id'],
                 "comic_id": comic_to_update['comic_id'],
                 "user_list_identifier": comic_to_update['user_list_identifier'],
                 "comic_status": "read",
-                "cw_add_db": comic_to_update['cw_add_db'],
+                "on_sale_date": comic_to_update['on_sale_date'],
                 "comic_title": comic_to_update['comic_title'],
                 "user_name": session['user'],
                 "comic_image": comic_to_update['comic_image'],
-                "date_read": datetime.date.today().strftime("%d%m%Y")
-            })
-        return redirect('user_home')
+                "comic_image_fs" : comic_to_update['comic_image_fs'],
+                "date_read": config.date_today })
+        return jsonify({ 'result' : 'success' })
     else:
         return render_template('index.html')
 
 
-@app.route('/comic_delete/<delete_id>')
-def comic_delete(delete_id):
-    mongo.db.user_comic_list.remove({'_id': ObjectId(delete_id)})
-    return redirect('user_home')
-
+@app.route('/delete_comic', methods=['POST'])
+def delete_comic():
+    if 'user' in session:
+        posted = request.json
+        mongo.db.user_comic_list.remove({'_id': ObjectId(posted['_id'])})
+        return jsonify({ 'result' : 'success' })
+    else:
+        return render_template('index.html')
     
 @app.route('/add_comics')
 def add_comics():
     if 'user' in session:
-        new_comics_list=mongo.db.comics.find({ "cw_add_db" : datetime.date.today().strftime("%V%Y") })
-        old_comics_list=mongo.db.comics.find({ "cw_add_db" : { "$ne" : datetime.date.today().strftime("%V%Y") } })
+        new_comics_list=mongo.db.comics.find({ "$query": { "on_sale_date" : { "$gte" : config.date_week_ago }}, "$orderby": { "comic_series_id" : 1 }})
         user_comics=mongo.db.user_comic_list.find({ "user_name" : session['user'] })
         check = [i['comic_id'] for i in user_comics]
+        now = datetime.datetime.now().strftime("%b-%d")
+        then = (datetime.datetime.now() - datetime.timedelta(days=7)).strftime("%b-%d")
         return render_template('add_comics.html',
-        new_comics=new_comics_list, old_comics=old_comics_list, check_list=check)
+        new_comics=new_comics_list, check_list=check, 
+        today=now, week_ago=then)
     else:
         return render_template('index.html')
 
-    
-@app.route('/add_comic_to_list/<comic_add>')
-def add_comic_to_list(comic_add):
+
+@app.route('/add_comics_all')
+def add_comics_all():
     if 'user' in session:
-        comic_to_add = mongo.db.comics.find_one({ "comic_id" : int(comic_add) })
+        all_comics_list=mongo.db.comics.find()
+        user_comics=mongo.db.user_comic_list.find({ "user_name" : session['user'] })
+        check = [i['comic_id'] for i in user_comics]
+        return render_template('add_comics_all.html',
+        all_comics=all_comics_list, 
+        check_list=check)
+    else:
+        return render_template('index.html')
+
+
+@app.route('/add_to_list', methods=['POST'])
+def add_to_list():
+    if 'user' in session:
+        posted = request.json
+        comic_to_add = mongo.db.comics.find_one({ "_id" : ObjectId(posted['_id']) })
         user_db_entry = mongo.db.users.find_one({ "user_name" : session['user']})
         user_list_identifier = user_db_entry['_id']
         new_comic = { "user_list_identifier": user_list_identifier,
@@ -92,10 +116,11 @@ def add_comic_to_list(comic_add):
                       "comic_id" : comic_to_add['comic_id'],
                       "comic_series_id" : comic_to_add['comic_series_id'],
                       "comic_image" : comic_to_add['comic_image'],
-                      "cw_add_db" : comic_to_add['cw_add_db'],
+                      "comic_image_fs" : comic_to_add['comic_image_fs'],
+                      "on_sale_date" : comic_to_add['on_sale_date'],
                       "comic_status" : "unread"}
         mongo.db.user_comic_list.insert_one(new_comic)
-        return redirect('add_comics',code=204)
+        return jsonify({ 'result' : 'success' })
     else:
         return render_template('index.html')
 
@@ -105,7 +130,7 @@ def sign_up():
     return render_template('sign_up.html')
     
 
-@app.route('/sign_up_submit', methods=["POST"])
+@app.route('/sign_up_submit', methods=['POST'])
 def sign_up_submit():
     users = mongo.db.users
         
@@ -137,7 +162,7 @@ def sign_in():
     return render_template('sign_in.html')
     
 
-@app.route('/sign_in_submit', methods=["POST"])
+@app.route('/sign_in_submit', methods=['POST'])
 def sign_in_submit():
     users=mongo.db.users
     user_name = users.find_one({"user_name" : request.form['uname']})
