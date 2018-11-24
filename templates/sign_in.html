@@ -1,16 +1,16 @@
 {% extends 'base.html' %} {% block nav_content %}
 
 <ul id="nav-mobile" class="right">
-    <li><a href="{{url_for('index')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">home</i> Home</a></li>
-    <li><a href="{{url_for('sign_up')}}" class="waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
-    <li><a href="{{url_for('sign_in')}}" class="disabled waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
+    <li><a href="{{url_for('index')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons">home</i></a></li>
+    <li><a href="{{url_for('sign_up')}}" class="hide-on-small-only waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
+    <li><a href="{{url_for('sign_in')}}" class="disabled hide-on-small-only waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
 </ul>
 
 {% endblock %} {% block content %}
 
 <div class="wider container">
     <div class="row">
-        <div class="col s8 offset-s2">
+        <div class="col s12 m8 offset-m2">
             <div class="card">
                 <div class="card-content blue-grey lighten-3 one-px-border">
                     <div class="index-img">
@@ -31,8 +31,8 @@
                                         <label for="uname">Username<span class="red-text"><b>{{ u_error }}</b></span></label>
                                     </div>
                                     <div class="input-field col s12">
-                                        <i class="material-icons prefix">lock</i>
-                                        <input placeholder="enter your password" id="pwd" name="pwd" type="password">
+                                        <i class="pw-show material-icons prefix"><span class="pw-show-eye">visibility</span></i>
+                                        <input class="pw-show-text" placeholder="enter your password" id="pwd" name="pwd" type="password">
                                         <label for="pwd">Password<span class="red-text"><b>{{ p_error }}</b></span></label>
                                     </div>
                                     <span class="col s12 center">

@@ -1,8 +1,15 @@
 /* global $ */
 
 $(document).ready(function() {
-    $('.collapsible').collapsible();
-    
+    $('.pw-show').on('click', function() {
+        $('.pw-show-text').prop('type', function(i,text){
+            return text === 'text' ? 'password' : 'text';
+        });
+        $('.pw-show-eye').text(function(i,text){
+            return text === 'visibility' ? 'visibility_off' : 'visibility';
+        });
+    });
+
     $('.addCheckbox').on('click', function() {
         var _id = $(this).attr('value');
         var comic_id =$(this).attr('name');
@@ -55,6 +62,4 @@ $(document).ready(function() {
     });
     
 });
-
-
 
