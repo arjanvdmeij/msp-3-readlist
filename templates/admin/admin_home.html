@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block nav_content %}
+
+<ul id="nav-mobile" class="right">
+    <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">x</a></li>
+</ul>
+<ul id="nav-mobile" class="left left-margin-80">
+    <li><span class="blue-grey-text text-lighten-3">User: </span><span class="yellow-text"><strong>{{ display_name }}</strong></span></li>
+</ul>
+
+{% endblock %} {% block content %}
+
+<div class="wider container">
+    <div class="row no-margin no-padding">
+        <div class="col s12">
+            <div class="card blue-grey lighten-3">
+                <div class="card-content col-padding blue-grey-text one-px-border">
+                    <span class="card-title center">Users</span>
+                    <div class="card-panel blue-grey lighten-4">
+                        <div class="row">
+                            <table class="highlight">
+                                <tr class="valign-wrapper blue-grey blue-grey-text text-lighten-4">
+                                    <th class="col s2">Username</th>
+                                    <th class="center col s2">Unread Comics</th>
+                                    <th class="center col s2">Read Comics</th>
+                                    <th class="center col s2">Del User</th>
+                                </tr>
+                                {% for user in user_list %}
+                                <tr class=valign-wrapper>
+                                    <td class="col s2">{{user.display_name}}</td>
+                                    <td class="center col s2">{{user.comics_unread}}</td>
+                                    <td class="center col s2">{{user.comics_read}}</td>
+                                    <td class="center col s2 red-text">
+                                        <!--<i class="material-icons">person</i><i class="material-icons">delete_outline</i>-->
+
+                                        <form action="{{url_for('adm_del_user')}}" method="POST">
+                                        <label for="del-{{user._id}}"></label>
+                                        <!--<span class="hide"><input type="text" id="del-{{user._id}}" name="del-{{user._id}}" value="{{user._id}}"></span>-->
+                                        <button name="action" type="submit" id="{{user.user_name}}" class="del-user btn-flat red-text" name="del-{{user._id}}" value="{{user._id}}">
+                                            <i class="material-icons">person</i><i class="material-icons">delete_outline</i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="card blue-grey lighten-2">
+                <div class="card-content col-padding white-text one-px-border">
+                    <span class="card-title center">Comics</span>
+                    <div class="card-panel blue-grey lighten-3">
+                        <h1>ADMIN</h1>
+                        <!-- placeholder line -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
