@@ -3,9 +3,9 @@ import config, requests, json, pymongo
 from datetime import datetime
 
 
-MONGODB_URI = config.mongo['uri']
-DBS_NAME = config.mongo['db']
-COLLECTION_NAME = config.mongo['comics']
+MONGODB_URI = config.mongodb['uri']
+DBS_NAME = config.mongodb['db']
+COLLECTION_NAME = config.mongodb['comics']
 
 
 def mongo_connect(url):
@@ -24,41 +24,41 @@ def main():
     check_against = comics.find()
     check_list = [i['comic_id'] for i in check_against]
     
-    new_comics_list_raw = requests.get(config.marvel_url)
+    _raw = requests.get(config.marvel_url)
 
-    new_comics_list_full_tree = new_comics_list_raw.json()
-    new_comics_short_tree = new_comics_list_full_tree['data']['results']
+    _full_tree = _raw.json()
+    short_tree = _full_tree['data']['results']
 
     x=0
-    while x < len(new_comics_short_tree):
-        if not new_comics_short_tree[x]['id'] in check_list:
-            comic_id = new_comics_short_tree[x]['id']
-            comic_title = new_comics_short_tree[x]['title']
+    while x < len(short_tree):
+        if not short_tree[x]['id'] in check_list:
+            id = short_tree[x]['id']
+            title = short_tree[x]['title']
             
-            on_sale_date_raw = new_comics_short_tree[x]['dates']['type'=='onsaleDate']['date'].split('T')
-            on_sale_date = on_sale_date_raw[0]
+            _raw = short_tree[x]['dates']['type'=='onsaleDate']['date'].split('T')
+            date = _raw[0]
 
-            comic_image_non_ssl_front = new_comics_short_tree[x]['thumbnail']['path']
-            comic_image_strip_protocol = comic_image_non_ssl_front.split('//')
+            _non_ssl_front = short_tree[x]['thumbnail']['path']
+            _strip_protocol = _non_ssl_front.split('//')
             
-            comic_image = 'https://' + comic_image_strip_protocol[1]\
+            image = 'https://' + _strip_protocol[1]\
             + '/portrait_large.'\
-            + new_comics_short_tree[x]['thumbnail']['extension']
+            + short_tree[x]['thumbnail']['extension']
             
-            comic_image_fs = 'https://' + comic_image_strip_protocol[1]\
+            image_fs = 'https://' + _strip_protocol[1]\
             + '/detail.'\
-            + new_comics_short_tree[x]['thumbnail']['extension']
+            + short_tree[x]['thumbnail']['extension']
             
-            comic_series_uri = new_comics_short_tree[x]['series']['resourceURI']
-            comic_series_uri_split = comic_series_uri.split('/')
-            comic_series_id = comic_series_uri_split[6]
+            _series_uri = short_tree[x]['series']['resourceURI']
+            _uri_split = _series_uri.split('/')
+            series_id = _uri_split[6]
     
-            new_entry = { "comic_id" : comic_id, 
-                          "comic_series_id" : comic_series_id,
-                          "comic_title" : comic_title,
-                          "on_sale_date" : on_sale_date,
-                          "comic_image" : comic_image,
-                          "comic_image_fs" : comic_image_fs}
+            new_entry = { "comic_id" : id, 
+                          "comic_series_id" : series_id,
+                          "comic_title" : title,
+                          "on_sale_date" : date,
+                          "comic_image" : image,
+                          "comic_image_fs" : image_fs}
                         
             comics.insert_one(new_entry)
         x+=1
