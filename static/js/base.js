@@ -54,7 +54,7 @@ $(document).ready(function() {
             data: JSON.stringify({ '_id': _id })
         })
         .done(function(data) {
-            $(`#cb-text-${comic_id}`).text('Marked Read');
+            $(`#cb-text-${comic_id}`).text('Deleted From List');
             $(`#${comic_id}`).attr('disabled', 'disabled');
             $(`#${comic_id}-card`).fadeTo(500,.5);
             $(`.flip-colour-${comic_id}`).removeClass('lighten-2').addClass('lighten-3');

@@ -1,0 +1,78 @@
+{% extends 'user_home.html' %} {% block link_select %}
+
+<li class="hide-on-small-only"><a href="{{url_for('user_home')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
+<li class="hide-on-small-only"><a href="{{url_for('add_comics')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a></li>
+<li class="show-on-small hide-on-med-and-up"><a href="{{url_for('user_home')}}"><i class="material-icons">inbox</i></a></li>
+<li class="show-on-small hide-on-med-and-up"><a href="{{url_for('add_comics')}}"><i class="material-icons">move_to_inbox</i></a></li>
+
+{% endblock %} {% block user_content %}
+
+<div class="row no-bottom-margin">
+    <div class="col s12 m6">
+        <div class="card no-margin blue-grey lighten-5">
+            <div class="card-content">
+                <span class="card-title">Change Display Name <span class="green-text">{{ dn_updated }}</span></span>
+                <form action="{{url_for('change_display_name')}}" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="input-field">
+                                    <i class="material-icons prefix">face</i>
+                                    <input placeholder="Call me.." id="dname" name="dname" type="text">
+                                    <label for="dname">Display Name (max 32 characters)<span class="red-text"><b>{{ d_error }}</b></span></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn-small waves-effect waves-light blue-grey white-text one-px-border" type="submit" name="action">
+                                Submit<i class="material-icons right">done</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card no-margin blue-grey lighten-5">
+            <div class="card-content">
+                <span class="card-title">Change Password <span class="green-text">{{ pw_updated }}</span></span>
+                <form action="{{url_for('change_password')}}" method="POST">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="input-field">
+                                    <i class="pw-show material-icons prefix"><span class="pw-show-eye">visibility</span></i>
+                                    <input class="pw-show-text" placeholder="current password" id="cpwd" name="cpwd" type="password">
+                                    <label for="cpwd">Current Password<span class="red-text"><b>{{ cp_error }}</b></span></label>
+                                </div>
+                                <div class="input-field">
+                                    <i class="pw-show material-icons prefix"><span class="pw-show-eye">visibility</span></i>
+                                    <input class="pw-show-text" placeholder="enter a password" id="npwd" name="npwd" type="password">
+                                    <label for="npwd">New Password (8-16 characters)<span class="red-text"><b>{{ np_error }}</b></span></label>
+                                </div>
+                                <div class="input-field">
+                                    <i class="pw-show material-icons prefix"><span class="pw-show-eye">visibility</span></i>
+                                    <input class="pw-show-text" placeholder="re-enter password" id="npwd_check" name="npwd_check" type="password">
+                                    <label for="npwd_check">New Password Check<span class="red-text"><b>{{ np_error }}</b></span></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn-small waves-effect waves-light blue-grey white-text one-px-border" type="submit" name="action">
+                                Submit<i class="material-icons right">done</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

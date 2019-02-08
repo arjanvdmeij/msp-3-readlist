@@ -48,17 +48,112 @@ def user_home():
         return redirect(url_for('index'))
 
 
+@app.route('/user_settings')
+def user_settings():
+    if session['user']:
+        try:
+            coll = mongo.db.users
+            _user = coll.find_one({"user_name":session['user']})
+            
+    
+            return render_template('user_settings.html',
+                                    user=_user,
+                                    display_name=_user['display_name'])
+        except KeyError as e:
+            print("KeyError occurred: %s") % e
+            return redirect(url_for('index'))
+
+@app.route('/change_display_name', methods=['POST'])
+def change_display_name():
+    try:
+        if session['user']:
+            coll = mongo.db.users
+            n_display_name = request.form['dname']
+            _user = coll.find_one({"user_name":session['user']})
+            if len(request.form['dname']) > 32:
+                return render_template('user_settings.html',
+                        d_error = " - Too many characters",
+                        display_name = _user['display_name'])
+            if len(request.form['dname']) == 0:
+                return render_template('user_settings.html',
+                        d_error = " - Can't be empty",
+                        display_name = _user['display_name'])
+            coll.update({"_id" : ObjectId(_user['_id'])},{
+                "user_name" : _user['user_name'],
+                "pwd" : _user['pwd'],
+                "creation_date": _user['creation_date'],
+                "display_name" : n_display_name})
+            _user = coll.find_one({"user_name":session['user']})
+            return render_template('user_settings.html',
+                dn_updated = '- Display Name Changed',
+                display_name = _user['display_name'])
+    except KeyError as e:
+            print("KeyError occurred: %s") % e
+            return redirect(url_for('index'))
+
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    print('clicked change password')
+    try:
+        if session['user']:
+            coll = mongo.db.users
+            _user = coll.find_one({"user_name":session['user']})
+            _current = request.form['cpwd']
+            _new = request.form['npwd']
+            _check = request.form['npwd_check']
+            _hash = generate_password_hash(_new)
+            _hash_check = check_password_hash(_user['pwd'], _current)
+            if not _hash_check:
+                return render_template('user_settings.html',
+                            cp_error = ' - Password Incorrect',
+                            display_name = _user['display_name'])
+            if _new != _check:
+                return render_template('user_settings.html',
+                            np_error = ' - Passwords do not match',
+                            display_name = _user['display_name'])
+            if _current == _new:
+                return render_template('user_settings.html',
+                            cp_error = ' - Passwords Identical',
+                            np_error = ' - Passwords Identical',
+                            display_name = _user['display_name'])
+            if len(_new) < 8:
+                return render_template('user_settings.html',
+                            np_error = ' - Password too short',
+                            display_name = _user['display_name'])
+            if len(_new) > 16:
+                return render_template('user_settings.html',
+                            np_error = ' - Password too long',
+                            display_name = _user['display_name'])
+            if _hash_check:
+                _npwd = generate_password_hash(_new)
+                coll.update({"_id" : ObjectId(_user['_id'])}, {
+                        "user_name" : _user['user_name'],
+                        "pwd" : _npwd,
+                        "display_name" : _user['display_name'],
+                        "creation_date" : _user['creation_date']})
+                return render_template('user_settings.html',
+                            pw_updated = '- Password Changed')
+        
+    except:
+        print('word')
+        return redirect(url_for('user_settings'))
+
+
 @app.route('/read_comics')
 def read_comics():
     try:
-        if 'user' in session:
+        if session['user']:
+            user = mongo.db.users.find_one({"user_name":session['user']})
+            _nice = user['display_name']
             coll = mongo.db.user_comic_list
             _user_read = coll.find({ "user_name" : session['user'],
                                     "comic_status" : { "$eq" : "read" } })
             _count = _user_read.count()
             return render_template('read_comics.html',
                                     user_read=_user_read,
-                                    comics_total=_count)
+                                    comics_total=_count,
+                                    display_name=_nice)
     except KeyError as e:
         print("KeyError occurred: %s") % e
         return redirect(url_for('index'))
@@ -68,13 +163,13 @@ def read_comics():
 def mark_comic_read():
     try:
         if 'user' in session:
+            print(session['user'])
             posted = request.json
             coll = mongo.db.user_comic_list
             _mark = coll.find_one({"_id":ObjectId(posted['_id'])})
             coll.update({"_id": ObjectId(posted['_id'])}, {
                 "comic_series_id": _mark['comic_series_id'],
                 "comic_id": _mark['comic_id'],
-                "user_list_identifier": _mark['user_list_identifier'],
                 "comic_status": "read",
                 "on_sale_date": _mark['on_sale_date'],
                 "comic_title": _mark['comic_title'],
@@ -108,7 +203,9 @@ def delete_comic():
 @app.route('/add_comics')
 def add_comics():
     try:
-        if 'user' in session:
+        if session['user']:
+            user = mongo.db.users.find_one({"user_name":session['user']})
+            _nice = user['display_name']
             coll_1 = mongo.db.comics
             coll_2 = mongo.db.user_comic_list
             _new_comics=coll_1.find({ "$query": { "on_sale_date" : 
@@ -120,8 +217,8 @@ def add_comics():
             _then = (datetime.now() \
                 - timedelta(days=6)).strftime("%b-%d")
             return render_template('add_comics.html',
-            new_comics=_new_comics, check_list=_check, 
-            today=_now, week_ago=_then)
+                        new_comics=_new_comics, check_list=_check, 
+                        today=_now, week_ago=_then, display_name=_nice)
         else:
             return render_template('index.html')
     except KeyError as e:
@@ -132,7 +229,9 @@ def add_comics():
 @app.route('/add_comics_all')
 def add_comics_all():
     try:
-        if 'user' in session:
+        if session['user']:
+            user = mongo.db.users.find_one({"user_name":session['user']})
+            _nice = user['display_name']
             coll_1 = mongo.db.comics
             coll_2 = mongo.db.user_comic_list
             _all_comics=coll_1.find({ "$query": {}, 
@@ -140,8 +239,8 @@ def add_comics_all():
             _user_list=coll_2.find({ "user_name" : session['user'] })
             _check = [i['comic_id'] for i in _user_list]
             return render_template('add_comics_all.html',
-            all_comics=_all_comics, 
-            check_list=_check)
+                        all_comics=_all_comics, 
+                        check_list=_check, display_name=_nice)
         else:
             return render_template('index.html')
     except KeyError as e:

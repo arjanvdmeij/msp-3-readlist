@@ -3,9 +3,9 @@ import config, requests, json, pymongo
 from datetime import datetime
 
 
-MONGODB_URI = config.mongodb['uri']
-DBS_NAME = config.mongodb['db']
-COLLECTION_NAME = config.mongodb['comics']
+MONGODB_URI = config.mongodb
+DBS_NAME = 'marvel_read_list'
+COLLECTION_NAME = 'comics'
 
 
 def mongo_connect(url):

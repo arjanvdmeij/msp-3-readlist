@@ -6,6 +6,19 @@
     padding-top: 3px;
 }
 
+.back-top i {
+    margin-right: 0 !important;
+    padding-left: 15px;
+}
+
+.fsize-plus i {
+    font-size: 3rem;
+}
+
+.menu-link {
+    width: 90%;
+}
+
 .smaller-font {
     font-size: 0.9rem;
     margin-right: 0.45rem;
@@ -14,6 +27,14 @@
 .one-px-border {
     border: 1px solid #ddd;
 }
+
+.one-px-border--bottom {
+    border-bottom: 0;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
 
 .no-margin {
     margin: 0 !important;
@@ -44,8 +65,32 @@
     width: 100%;
 }
 
-.left-margin-80 {
-    margin-left: 80px;
+.left-margin-40 {
+    margin-left: 40px;
+}
+
+.lr-margin {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.col-padding {
+    padding: 0.75rem .75rem 0 !important;
+}
+
+.col-padding2 {
+    padding: 0.75rem .75rem !important;
+}
+
+.nothing-here img {
+    border: 1px solid #ddd !important;
+}
+
+.del-user{
+    cursor: pointer;
+}
+tr {
+    border: 0;
 }
 
 /* -------------------------------------- Overrides for Materialize defaults: */
@@ -108,6 +153,6 @@ input[type=password]:not(.browser-default):focus:not([readonly])+label {
 }
 
 [type="checkbox"]:checked+span:not(.lever):before {
-    border-right: 2px solid #4caf50  ;
-    border-bottom: 2px solid #4caf50  ;
+    border-right: 2px solid #4caf50;
+    border-bottom: 2px solid #4caf50;
 }

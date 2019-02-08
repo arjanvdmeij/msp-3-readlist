@@ -18,19 +18,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper blue-grey one-px-border">
-                    <a href="#top" class="brand-logo left">&nbsp;&nbsp;<i class="material-icons right">vertical_align_top</i></a>
-                    {% block nav_content%}
-                    <ul id="nav-mobile" class="right">
-                        <li><a href="{{url_for('user_home')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border">My unread</a></li>
-                        <li><a href="{{url_for('user_home')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border">My read</a></li>
-                        <li><a href="{{url_for('add_comics')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border">Add (Week)</a></li>
-                        <li><a href="{{url_for('add_comics')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border">Add (All)</a></li>
-                        <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">sign out</a></li>
-                    </ul>
-                    <ul id="nav-mobile" class="left left-margin-100">
-                        <li>Current user: <strong>{{ session['user'] }}</strong></li>
-                    </ul>
-                    {% endblock %}
+                    <a href="#top" class="back-top left"><i class="material-icons left">vertical_align_top</i><span class="smaller-font">TOP</span></a> {% block nav_content%} {% endblock %}
                 </div>
             </nav>
         </div>

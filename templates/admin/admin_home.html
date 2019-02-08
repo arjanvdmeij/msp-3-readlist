@@ -3,7 +3,7 @@
 <ul id="nav-mobile" class="right">
     <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">x</a></li>
 </ul>
-<ul id="nav-mobile" class="left left-margin-80">
+<ul id="nav-mobile" class="left left-margin-40">
     <li><span class="blue-grey-text text-lighten-3">User: </span><span class="yellow-text"><strong>{{ display_name }}</strong></span></li>
 </ul>
 
@@ -20,21 +20,20 @@
                             <table class="highlight">
                                 <tr class="valign-wrapper blue-grey blue-grey-text text-lighten-4">
                                     <th class="col s2">Username</th>
-                                    <th class="center col s2">Unread Comics</th>
-                                    <th class="center col s2">Read Comics</th>
-                                    <th class="center col s2">Del User</th>
+                                    <th class="col s2">Displayname</th>
+                                    <th class="col s2">Unread Comics</th>
+                                    <th class="col s2">Read Comics</th>
+                                    <th class="col s2">Del User</th>
                                 </tr>
                                 {% for user in user_list %}
                                 <tr class=valign-wrapper>
+                                    <td class="col s2">{{user.user_name}}</td>
                                     <td class="col s2">{{user.display_name}}</td>
-                                    <td class="center col s2">{{user.comics_unread}}</td>
-                                    <td class="center col s2">{{user.comics_read}}</td>
-                                    <td class="center col s2 red-text">
-                                        <!--<i class="material-icons">person</i><i class="material-icons">delete_outline</i>-->
-
+                                    <td class="col s2">{{user.comics_unread}}</td>
+                                    <td class="col s2">{{user.comics_read}}</td>
+                                    <td class="col s2 red-text">
                                         <form action="{{url_for('adm_del_user')}}" method="POST">
                                         <label for="del-{{user._id}}"></label>
-                                        <!--<span class="hide"><input type="text" id="del-{{user._id}}" name="del-{{user._id}}" value="{{user._id}}"></span>-->
                                         <button name="action" type="submit" id="{{user.user_name}}" class="del-user btn-flat red-text" name="del-{{user._id}}" value="{{user._id}}">
                                             <i class="material-icons">person</i><i class="material-icons">delete_outline</i></button>
                                         </form>
