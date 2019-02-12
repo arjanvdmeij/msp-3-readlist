@@ -27,32 +27,26 @@
                                 </tr>
                                 {% for user in user_list %}
                                 <tr class=valign-wrapper>
-                                    <td class="col s2">{{user.user_name}}</td>
-                                    <td class="col s2">{{user.display_name}}</td>
-                                    <td class="col s2">{{user.comics_unread}}</td>
-                                    <td class="col s2">{{user.comics_read}}</td>
-                                    <td class="col s2 red-text">
-                                        <form action="{{url_for('adm_del_user')}}" method="POST">
-                                        <label for="del-{{user._id}}"></label>
-                                        <button name="action" type="submit" id="{{user.user_name}}" class="del-user btn-flat red-text" name="del-{{user._id}}" value="{{user._id}}">
-                                            <i class="material-icons">person</i><i class="material-icons">delete_outline</i></button>
+                                    <td class="col s2 {{user.user_name}}-td">{{user.user_name}}</td>
+                                    <td class="col s2 {{user.user_name}}-td">{{user.display_name}}</td>
+                                    <td class="col s2 {{user.user_name}}-td">{{user.comics_unread}}</td>
+                                    <td class="col s2 {{user.user_name}}-td">{{user.comics_read}}</td>
+                                    <td class="col s2 {{user.user_name}}-td red-text">
+                                        <form  action="{{url_for('adm_del_user')}}" method="POST">
+                                            <span id="del-{{user.user_name}}" class="red-text smaller-font">
+                                                Delete User?</span>
+                                            <label for="{{user.user_name}}">
+                                            <button type="button" class="del-user btn-small waves-effect waves-light blue-grey white-text one-px-border" id="{{user.user_name}}" name="{{user.user_name}}">
+                                                <i class="material-icons white-text">delete_forever</i>
+                                            </button>
+                                            <span id="del-{{user.user_name}}" class="white-text">&nbsp;</span>
+                                            </label>
                                         </form>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12">
-            <div class="card blue-grey lighten-2">
-                <div class="card-content col-padding white-text one-px-border">
-                    <span class="card-title center">Comics</span>
-                    <div class="card-panel blue-grey lighten-3">
-                        <h1>ADMIN</h1>
-                        <!-- placeholder line -->
                     </div>
                 </div>
             </div>

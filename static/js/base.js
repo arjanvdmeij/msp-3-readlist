@@ -61,5 +61,21 @@ $(document).ready(function() {
         });
     });
     
+    $('.del-user').on('click', function() {
+        var user_name = $(this).attr('name');
+        $.ajax({
+            url: '/adm_del_user',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ 'user_name': user_name })
+        })
+        .done(function(data) {
+            $(`#del-${user_name}`).text('User Deleted');
+            $(`#del-${user_name}`).attr('disabled', 'disabled');
+            $(`.${user_name}-td`).fadeTo(500,.5);
+            $(`.flip-colour-${user_name}`).removeClass('lighten-2').addClass('lighten-3');
+        });
+    });
+    
 });
 

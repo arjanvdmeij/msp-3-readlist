@@ -190,6 +190,9 @@ def delete_comic():
     try:
         if 'user' in session:
             posted = request.json
+            print(request)
+            print(request.json)
+            print(posted)
             coll = mongo.db.user_comic_list
             coll.remove({'_id': ObjectId(posted['_id'])})
             return jsonify({ 'result' : 'success' })
@@ -451,9 +454,28 @@ def admin():
 
 @app.route('/adm_del_user', methods=["POST"])
 def adm_del_user():
-    print('This isn\'t *actually* doing anything yet')
-    return redirect(url_for('index'))
-    
+    try:
+        if session['user'] == config.admin_name:
+            posted = request.json
+            coll = mongo.db.users
+            x = coll.find_one({'user_name':posted['user_name']})
+            coll.remove({'user_name': posted['user_name']})
+            config.admin_coll.remove({'user_name': posted['user_name']})
+            
+            # return jsonify({ 'result' : 'success' })
+            
+            user_list = config.admin_coll.find({"$query":{}, 
+                                            "$orderby" : { "user_name": 1}})
+            return render_template('admin/admin_home.html',
+                                    user_list=user_list,
+                                    display_name = config.admin_display_name)
+            # return redirect(url_for('index'))
+        else:    
+            return redirect(url_for('index'))
+    except KeyError as e:
+        print("KeyError occurred: %s") % e
+        return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.secret_key = config.secret_key
