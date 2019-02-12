@@ -21,14 +21,17 @@ comics = conn[DBS_NAME][COLLECTION_NAME]
 
 
 def main():
+    """ Get current comics to avoid re-adding """
     check_against = comics.find()
     check_list = [i['comic_id'] for i in check_against]
     
+    """ Get new comics from Marvel """
     _raw = requests.get(config.marvel_url)
 
     _full_tree = _raw.json()
     short_tree = _full_tree['data']['results']
-
+    
+    """ Process results and add to database """
     x=0
     while x < len(short_tree):
         if not short_tree[x]['id'] in check_list:
