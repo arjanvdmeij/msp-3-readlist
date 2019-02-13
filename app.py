@@ -94,7 +94,6 @@ def change_display_name():
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
-    print('clicked change password')
     try:
         if session['user']:
             coll = mongo.db.users
@@ -162,7 +161,6 @@ def read_comics():
 def mark_comic_read():
     try:
         if 'user' in session:
-            print(session['user'])
             posted = request.json
             coll = mongo.db.user_comic_list
             _mark = coll.find_one({"_id":ObjectId(posted['_id'])})
@@ -297,17 +295,14 @@ def sign_up_submit():
         x=0
         y=0
         while x < len(uname):
-            print(uname[x])
             if uname[x] in config.letters:
                 y += 1
             
             if uname[x] not in config.valids:
-                print('\ninvalid character in username\n')
                 return render_template('sign_up.html',
                     u_error = ' - Use allowed characters only')
             x += 1
         if y < 3:
-            print('\nNot enough letters in username\n')
             return render_template('sign_up.html',
                     u_error = ' - Not enough letters')
         
@@ -320,32 +315,27 @@ def sign_up_submit():
                     u_error = ' - Who needs more than 32 characters? O_o')
         
         if users.find_one({ "user_name" : uname}):
-            print('\nUsername already exists\n')
             return render_template('sign_up.html', 
                     u_error = ' - This name is taken, try again')
                                     
         if len(pwd) == 0:
-            print('\nNo password was entered\n')
             return render_template('sign_up.html',
                     p_error = ' - Empty is at least 8 characters short',
                     u_error = '')
         
         if len(pwd) < 8:
-            print('\nPassword too short\n')
             return render_template('sign_up.html',
                     p_error = ' - That\'s not enough characters',
                     u_error = '',
                     if_pw_error = request.form['uname'])
                                     
         if len(pwd) > 16:
-            print('\nNPassword too long\n')
             return render_template('sign_up.html',
                     p_error = ' - That\'s too long, try again',
                     u_error = '',
                     if_pw_error = request.form['uname'])
         
         if pwd != pwd_check:
-            print('\nPasswords don\'t match\n')
             return render_template('sign_up.html', 
                     p_error = ' -  Passwords did not match, try again', 
                     u_error = '',
@@ -360,7 +350,6 @@ def sign_up_submit():
         users.insert(new_user)
         config.admin_coll.insert({ "user_name" : uname, 
                                    "display_name" : display_name })
-        print('\nUser added\n')
         return redirect(url_for('index'))
     except KeyError as e:
         print("KeyError occurred: %s") % e
@@ -382,8 +371,6 @@ def sign_in_submit():
         users=mongo.db.users
         uname = request.form['uname'].lower()
         user = users.find_one({"user_name" : uname})
-        print('User Login: ' + uname)
-        
         if not user:
             return render_template('sign_in.html', 
                     u_error = ' - Incorrect username or password, try again',
