@@ -12,6 +12,12 @@ app.config["MONGO_URI"] = config.app.config["MONGO_URI"]
 
 mongo = config.mongo
 
+@app.before_request
+def force_https():
+    if request.endpoint in app.view_functions and request.headers.get(
+                                    'X-Forwarded-Proto', None) == 'http':
+        return redirect(request.url.replace('http://', 'https://'))
+
 
 @app.route('/')
 @app.route('/home')
@@ -20,7 +26,8 @@ def index():
         if 'user' in session:
             if session['user'] == config.admin_name:
                 return redirect(url_for('admin'))
-            return redirect(url_for('user_home'))
+            else:
+                return redirect(url_for('user_home'))
         return render_template('index.html')
     except KeyError as e:
         print("KeyError occurred: %s") % e
