@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import config, requests, json, pymongo
-from datetime import datetime
 
 
 MONGODB_URI = config.mongodb
@@ -22,14 +21,11 @@ comics = conn[DBS_NAME][COLLECTION_NAME]
 
 def main():
     """ Get current comics to avoid re-adding """
-    print('\nGetting current comics archive')
     check_against = comics.find()
     check_list = [i['comic_id'] for i in check_against]
     
     """ Get new comics from Marvel """
-    print('\nConnecting Marvel to get new comics')
     _raw = requests.get(config.marvel_url)
-    print('\nComics collected, proceeding with database additions')
 
     _full_tree = _raw.json()
     short_tree = _full_tree['data']['results']
@@ -41,8 +37,8 @@ def main():
             id = short_tree[x]['id']
             title = short_tree[x]['title']
             
-            _raw = short_tree[x]['dates']['type'=='onsaleDate']['date'].split('T')
-            date = _raw[0]
+            _raw_date = short_tree[x]['dates']['type'=='onsaleDate']['date'].split('T')
+            date = _raw_date[0]
 
             _non_ssl_front = short_tree[x]['thumbnail']['path']
             _strip_protocol = _non_ssl_front.split('//')
@@ -68,6 +64,5 @@ def main():
                         
             comics.insert_one(new_entry)
         x+=1
-    print('\nAll done, new comics, if any, were added.\n')
-    
+
 main()
