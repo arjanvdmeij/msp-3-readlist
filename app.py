@@ -136,7 +136,6 @@ def change_password():
                             pw_updated = '- Password Changed')
         
     except:
-        print('word')
         return redirect(url_for('user_settings'))
 
 
@@ -190,9 +189,6 @@ def delete_comic():
     try:
         if 'user' in session:
             posted = request.json
-            print(request)
-            print(request.json)
-            print(posted)
             coll = mongo.db.user_comic_list
             coll.remove({'_id': ObjectId(posted['_id'])})
             return jsonify({ 'result' : 'success' })
@@ -457,19 +453,16 @@ def adm_del_user():
     try:
         if session['user'] == config.admin_name:
             posted = request.json
-            coll = mongo.db.users
-            x = coll.find_one({'user_name':posted['user_name']})
-            coll.remove({'user_name': posted['user_name']})
+            coll_1 = mongo.db.users
+            coll_2 = mongo.db.user_comic_list
+            coll_1.remove({'user_name': posted['user_name']})
+            coll_2.remove({'user_name': posted['user_name']})
             config.admin_coll.remove({'user_name': posted['user_name']})
-            
-            # return jsonify({ 'result' : 'success' })
-            
             user_list = config.admin_coll.find({"$query":{}, 
                                             "$orderby" : { "user_name": 1}})
             return render_template('admin/admin_home.html',
                                     user_list=user_list,
                                     display_name = config.admin_display_name)
-            # return redirect(url_for('index'))
         else:    
             return redirect(url_for('index'))
     except KeyError as e:
@@ -478,7 +471,13 @@ def adm_del_user():
 
 
 if __name__ == '__main__':
-    app.secret_key = config.secret_key
-    app.run(host=os.getenv('IP'), 
-            port=int(os.getenv('PORT')),
-            debug=True)
+    if os.getenv('C9_HOSTNAME'):
+        app.secret_key = config.secret_key
+        app.run(host=os.getenv('IP'), 
+                port=int(os.getenv('PORT')),
+                debug=True)
+    else:
+        app.secret_key = config.secret_key
+        app.run(host=os.getenv('IP'), 
+                port=int(os.getenv('PORT')),
+                debug=False)
