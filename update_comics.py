@@ -22,11 +22,14 @@ comics = conn[DBS_NAME][COLLECTION_NAME]
 
 def main():
     """ Get current comics to avoid re-adding """
+    print('\nGetting current comics archive')
     check_against = comics.find()
     check_list = [i['comic_id'] for i in check_against]
     
     """ Get new comics from Marvel """
+    print('\nConnecting Marvel to get new comics')
     _raw = requests.get(config.marvel_url)
+    print('\nComics collected, proceeding with database additions')
 
     _full_tree = _raw.json()
     short_tree = _full_tree['data']['results']
@@ -65,6 +68,6 @@ def main():
                         
             comics.insert_one(new_entry)
         x+=1
-
+    print('\nAll done, new comics, if any, were added.\n')
     
 main()
