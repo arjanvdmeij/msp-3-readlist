@@ -44,12 +44,12 @@ the check performed when loading new comics will no longer filter the comic as b
 The site relies on the [MARVEL API](https://developer.marvel.com), any and all content retrieved is © 2019 MARVEL.
 For the record (and it can't be stressed enough), this site offers titles and covers only, not the actual comics!
 
-The code used is mostly based on **Flask**, version 1.0.2 and **Python**, version 3.4.3
-Database backend (MongoDB) for the site is hosted with [mLab](https://mlab.com)
-Additionally, **jQuery**, version 3.3.1, is used to aid with marking comics
-This site is styled using [Materialize](https://materializecss.com), version 1.0.0
-Pop-up images make use of [Lightbox](https://lokeshdhakar.com/projects/lightbox2/)
-The site can be viewed [HERE](https://readlist-msp3.herokuapp.com)
+The code used is mostly based on **Flask**, version 1.0.2 and **Python**, version 3.4.3.
+Database backend (MongoDB) for the site is hosted with [mLab](https://mlab.com).
+Additionally, **jQuery**, version 3.3.1, is used to aid with marking comics.
+This site is styled using [Materialize](https://materializecss.com), version 1.0.0.
+Pop-up images make use of [Lightbox](https://lokeshdhakar.com/projects/lightbox2/).
+The site can be viewed [HERE](https://readlist-msp3.herokuapp.com).
 
 ## Features
 
