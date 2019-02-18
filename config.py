@@ -11,7 +11,7 @@ secret_key = os.getenv('secret_key')
 """ Time calculations for new comics """
 timestamp=int(time())
 date_week_ago = (datetime.now()
-                - timedelta(days=6)).strftime("%Y-%m-%d")
+                - timedelta(days=7)).strftime("%Y-%m-%d")
 date_today = datetime.now().strftime("%Y-%m-%d")
 
 """ Build Marvel URL for getting new comics """
