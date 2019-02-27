@@ -219,7 +219,7 @@ def add_comics():
             _check = [i['comic_id'] for i in _user_list]
             _now = datetime.now().strftime("%b-%d")
             _then = (datetime.now() \
-                - timedelta(days=6)).strftime("%b-%d")
+                - timedelta(days=7)).strftime("%b-%d")
             return render_template('add_comics.html',
                         new_comics=_new_comics, check_list=_check, 
                         today=_now, week_ago=_then, display_name=_nice)
