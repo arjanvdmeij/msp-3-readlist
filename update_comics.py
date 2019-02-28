@@ -1,9 +1,21 @@
 #!/usr/bin/python
-import config, requests, json, pymongo
+""" This file performs the updates to the comics list.
+It is run daily, despite comics running weekly, to ensure that
+any intermediate releases for specials are caught as soon as added.
+It relies on the config.py file used also by the app. Always check
+both when performing changes to config.py.
+"""
+import config, requests, json, pymongo, os
 
 
 MONGODB_URI = config.mongodb
-DBS_NAME = 'marvel_read_list'
+
+""" decide on which mongodb to use based on environment """
+if os.getenv('C9_HOSTNAME'):
+    DBS_NAME = 'marvel-dev-read-list'
+else:
+    DBS_NAME = 'marvel_read_list'
+    
 COLLECTION_NAME = 'comics'
 
 
@@ -20,13 +32,14 @@ comics = conn[DBS_NAME][COLLECTION_NAME]
 
 
 def main():
-    """ Get current comics to avoid re-adding """
+    """ Get current comics to avoid dual adding """
     check_against = comics.find()
     check_list = [i['comic_id'] for i in check_against]
     
-    """ Get new comics from Marvel """
+    """ Get new comics from Marvel and trim results to
+    have a shorter path to work from
+    """
     _raw = requests.get(config.marvel_url)
-
     _full_tree = _raw.json()
     short_tree = _full_tree['data']['results']
     
@@ -37,9 +50,11 @@ def main():
             id = short_tree[x]['id']
             title = short_tree[x]['title']
             
+            # strip onsaleDate to just the date
             _raw_date = short_tree[x]['dates']['type'=='onsaleDate']['date'].split('T')
             date = _raw_date[0]
-
+            
+            # rebuild image paths to https paths to avoid error messages
             _non_ssl_front = short_tree[x]['thumbnail']['path']
             _strip_protocol = _non_ssl_front.split('//')
             
@@ -51,6 +66,7 @@ def main():
             + '/detail.'\
             + short_tree[x]['thumbnail']['extension']
             
+            # strip the series ID from the series URI
             _series_uri = short_tree[x]['series']['resourceURI']
             _uri_split = _series_uri.split('/')
             series_id = _uri_split[6]

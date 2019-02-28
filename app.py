@@ -1,5 +1,6 @@
 import os, config, requests, json, time
-from flask import Flask, render_template, redirect, request, url_for, session, jsonify
+from flask import Flask, render_template, redirect
+from flask import request, url_for, session, jsonify
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
@@ -14,6 +15,7 @@ mongo = config.mongo
 
 @app.before_request
 def force_https():
+    """ push Flask into using https on all pages """
     if request.endpoint in app.view_functions and request.headers.get(
                                     'X-Forwarded-Proto', None) == 'http':
         return redirect(request.url.replace('http://', 'https://'))
@@ -22,6 +24,7 @@ def force_https():
 @app.route('/')
 @app.route('/home')
 def index():
+    """ Main page, offering instruction and login/registration """
     try:
         if 'user' in session:
             if session['user'] == config.admin_name:
@@ -29,13 +32,15 @@ def index():
             else:
                 return redirect(url_for('user_home'))
         return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
 
     
 @app.route('/user_home')
 def user_home():
+    """ user's home page, defaults to
+    the current list of comics to be read 
+    """
     try:
         if session['user']:
             user = mongo.db.users.find_one({"user_name":session['user']})
@@ -50,28 +55,31 @@ def user_home():
                                     display_name=_nice)
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
 
 
 @app.route('/user_settings')
 def user_settings():
-    if session['user']:
-        try:
+    """ user setting page, allowing password change
+    or setting a custom display name 
+    """
+    try:
+        if session['user']:
             coll = mongo.db.users
             _user = coll.find_one({"user_name":session['user']})
-            
-    
             return render_template('user_settings.html',
                                     user=_user,
                                     display_name=_user['display_name'])
-        except KeyError as e:
-            print("KeyError occurred: %s") % e
-            return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
+
 
 @app.route('/change_display_name', methods=['POST'])
 def change_display_name():
+    """ action behind button for changing display name, checking restrictions
+    and returning an error or applying the new name
+    """
     try:
         if session['user']:
             coll = mongo.db.users
@@ -94,13 +102,17 @@ def change_display_name():
             return render_template('user_settings.html',
                 dn_updated = '- Display Name Changed',
                 display_name = _user['display_name'])
-    except KeyError as e:
-            print("KeyError occurred: %s") % e
-            return redirect(url_for('index'))
+    except:
+        return redirect(url_for('user_settings'))
 
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    """ action behind button for changing password.
+    Checks are performed for current password and whether the new
+    password adheres to minimum requirements, displaying error 
+    messages if something is wrong 
+    """
     try:
         if session['user']:
             coll = mongo.db.users
@@ -147,6 +159,7 @@ def change_password():
 
 @app.route('/read_comics')
 def read_comics():
+    """ page with user's comics marked 'read' """
     try:
         if session['user']:
             user = mongo.db.users.find_one({"user_name":session['user']})
@@ -159,13 +172,13 @@ def read_comics():
                                     user_read=_user_read,
                                     comics_total=_count,
                                     display_name=_nice)
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
 
         
 @app.route('/mark_comic_read', methods=['POST'])
 def mark_comic_read():
+    """ action behind checkmark on unread comics """
     try:
         if 'user' in session:
             posted = request.json
@@ -184,13 +197,13 @@ def mark_comic_read():
             return jsonify({ 'result' : 'success' })
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('index.html')
 
 
 @app.route('/delete_comic', methods=['POST'])
 def delete_comic():
+    """ remove the comic entirely from the user's list """
     try:
         if 'user' in session:
             posted = request.json
@@ -199,13 +212,15 @@ def delete_comic():
             return jsonify({ 'result' : 'success' })
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('index.html')
 
     
 @app.route('/add_comics')
 def add_comics():
+    """ default landing page for adding comics,
+    defaults to the list of new comics 
+    """
     try:
         if session['user']:
             user = mongo.db.users.find_one({"user_name":session['user']})
@@ -225,13 +240,15 @@ def add_comics():
                         today=_now, week_ago=_then, display_name=_nice)
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
 
 
 @app.route('/add_comics_all')
 def add_comics_all():
+    """ similar to add_comics, but now
+    showing the entire list of comics available 
+    """
     try:
         if session['user']:
             user = mongo.db.users.find_one({"user_name":session['user']})
@@ -247,13 +264,15 @@ def add_comics_all():
                         check_list=_check, display_name=_nice)
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
 
 
 @app.route('/add_to_list', methods=['POST'])
 def add_to_list():
+    """ action taken when checkbox is clicked,
+    adding the comic to the list of unread comics
+    """
     try:
         if 'user' in session:
             posted = request.json
@@ -272,22 +291,22 @@ def add_to_list():
             return jsonify({ 'result' : 'success' })
         else:
             return render_template('index.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('index.html')
 
 
 @app.route('/sign_up')
 def sign_up():
+    """ the registration page """
     try:
         return render_template('sign_up.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
     
 
 @app.route('/sign_up_submit', methods=['POST'])
 def sign_up_submit():
+    """ action taken when user subits registration form """
     try:
         users = mongo.db.users
         display_name = request.form['uname']
@@ -302,51 +321,63 @@ def sign_up_submit():
         x=0
         y=0
         while x < len(uname):
+            # create counter for letter in the name
             if uname[x] in config.letters:
                 y += 1
-            
+            # check if character is outside of allowed characters
             if uname[x] not in config.valids:
                 return render_template('sign_up.html',
                     u_error = ' - Use allowed characters only')
             x += 1
+        
+        # Less than three letters in the chosen username
         if y < 3:
             return render_template('sign_up.html',
                     u_error = ' - Not enough letters')
         
+        # username total length is less than 5 characters
         if  len(uname) < 5:
             return render_template('sign_up.html',
                     u_error = ' - Minimum 5 characters')
-                                    
+        
+        # username is more than 32 characters                            
         if  len(uname) > 32:
             return render_template('sign_up.html',
                     u_error = ' - Who needs more than 32 characters? O_o')
         
+        # username already exists
         if users.find_one({ "user_name" : uname}):
             return render_template('sign_up.html', 
                     u_error = ' - This name is taken, try again')
-                                    
+        
+        # empty password fields                            
         if len(pwd) == 0:
             return render_template('sign_up.html',
                     p_error = ' - Empty is at least 8 characters short',
                     u_error = '')
         
+        # password length too short
         if len(pwd) < 8:
             return render_template('sign_up.html',
                     p_error = ' - That\'s not enough characters',
                     u_error = '',
                     if_pw_error = request.form['uname'])
                                     
+        # pssword length too long
         if len(pwd) > 16:
             return render_template('sign_up.html',
                     p_error = ' - That\'s too long, try again',
                     u_error = '',
                     if_pw_error = request.form['uname'])
         
+        # mismatching passwords in form
         if pwd != pwd_check:
             return render_template('sign_up.html', 
                     p_error = ' -  Passwords did not match, try again', 
                     u_error = '',
                     if_pw_error = uname)
+                    
+        # All checks passed, add user to database and hash the password
         pwd_hash = generate_password_hash(pwd)
         session['user'] = uname
         creation_date = datetime.now().strftime("%Y%m%d")
@@ -355,33 +386,36 @@ def sign_up_submit():
                      "pwd" : pwd_hash, 
                      "creation_date" : creation_date }
         users.insert(new_user)
+        # Add user to admin table as well with less information
         config.admin_coll.insert({ "user_name" : uname, 
                                    "display_name" : display_name })
         return redirect(url_for('index'))
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
     
 
 @app.route('/sign_in')
 def sign_in():
+    """ user sign in page """
     try:
         return render_template('sign_in.html')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
     
 
 @app.route('/sign_in_submit', methods=['POST'])
 def sign_in_submit():
+    """ action taken when user submits login form """
     try:
         users=mongo.db.users
         uname = request.form['uname'].lower()
         user = users.find_one({"user_name" : uname})
+        # user doesn't exist, return generic 'try again' message
         if not user:
             return render_template('sign_in.html', 
                     u_error = ' - Incorrect username or password, try again',
                     p_error = ' - Incorrect username or password, try again')
+        # user exists, return generic 'try again' on password failure
         if user:
             pwd = request.form['pwd']
             pwd_hash_check = check_password_hash(user['pwd'], pwd)
@@ -394,24 +428,49 @@ def sign_in_submit():
                 return render_template('sign_in.html', 
                     u_error = ' - Incorrect username or password, try again',
                     p_error = ' - Incorrect username or password, try again')
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
 
 
 @app.route('/log_out')
 def log_out():
+    """ Speaks for itself, action taken when user 
+    clicks the logout (red cross) button 
+    """
     session.clear()
     return redirect(url_for('index'))
     
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """ custom 404 page """
     return render_template('404.html'), 404
+
+
+@app.errorhandler(401)
+def unauthorized_401(e):
+    """ custom page to show whenever link manipulation
+    is performed to pages that require a logged in user
+    """
+    return render_template('401.html'), 401
+
+
+@app.errorhandler(405)
+def methord_not_allowed(e):
+    """ custom page to catch link manipulation
+    towards pages that are POST only 
+    """
+    return render_template('405.html'), 405
 
 
 @app.route('/admin')
 def admin():
+    """ admin page allowing removal of users
+    to avoid the need to go to mLabs and remove there.
+    Provides an overview of the number of comics in 
+    user's lists as well, which is generated and updated to 
+    the database on page load
+    """
     try:
         if session['user'] == config.admin_name:
             user_all = mongo.db.users.find()
@@ -437,13 +496,15 @@ def admin():
                                     display_name = config.admin_display_name)
         else:
             return redirect(url_for('index'))
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
-        return redirect(url_for('index'))
+    except:
+        return render_template('401.html')
 
 
 @app.route('/adm_del_user', methods=["POST"])
 def adm_del_user():
+    """ actions taken upon deletion of a user.
+    User is deleted from all relevant tables
+    """
     try:
         if session['user'] == config.admin_name:
             posted = request.json
@@ -459,12 +520,12 @@ def adm_del_user():
                                     display_name = config.admin_display_name)
         else:    
             return redirect(url_for('index'))
-    except KeyError as e:
-        print("KeyError occurred: %s") % e
+    except:
         return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
+    """ decide whether or not this is development or production """
     if os.getenv('C9_HOSTNAME'):
         app.secret_key = config.secret_key
         app.run(host=os.getenv('IP'), 
@@ -474,4 +535,4 @@ if __name__ == '__main__':
         app.secret_key = config.secret_key
         app.run(host=os.getenv('IP'), 
                 port=int(os.getenv('PORT')),
-                debug=False)
+                )
