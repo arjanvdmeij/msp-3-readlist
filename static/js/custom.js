@@ -1,6 +1,7 @@
 /* global $ */
 
 $(document).ready(function() {
+    // Allow the user to view the password(s) they entered
     $('.pw-show').on('click', function() {
         $('.pw-show-text').prop('type', function(i,text){
             return text === 'text' ? 'password' : 'text';
@@ -10,6 +11,8 @@ $(document).ready(function() {
         });
     });
 
+    // Trigger CSS changes when user adds a comic to their list
+    // and trigger the POST link
     $('.addCheckbox').on('click', function() {
         var _id = $(this).attr('value');
         var comic_id =$(this).attr('name');
@@ -27,6 +30,8 @@ $(document).ready(function() {
         });
     });
     
+    // Trigger CSS changes when user marks a comic as read
+    // and trigger the POST link
     $('.markCheckbox').on('click', function() {
         var _id = $(this).attr('value');
         var comic_id = $(this).attr('name');
@@ -44,6 +49,8 @@ $(document).ready(function() {
         });
     });
     
+    // Trigger CSS changes when user deletes a comic from their list
+    // and trigger the POST link
     $('.delCheckbox').on('click', function() {
         var _id = $(this).attr('value');
         var comic_id = $(this).attr('name');
@@ -61,6 +68,8 @@ $(document).ready(function() {
         });
     });
     
+    // Trigger CSS changes when admin deletes a user
+    // and trigger the POST link    
     $('.del-user').on('click', function() {
         var user_name = $(this).attr('name');
         $.ajax({
