@@ -1,13 +1,12 @@
-{% extends 'base.html' %} {% block nav_content %}
-
+{% extends 'base.html' %} 
+{% block nav_content %}
 <ul id="nav-mobile" class="right">
     <li><a href="{{url_for('index')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons">home</i></a></li>
     <li><a href="{{url_for('sign_up')}}" class="disabled hide-on-small-only waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
     <li><a href="{{url_for('sign_in')}}" class="hide-on-small-only waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
 </ul>
-
-{% endblock %} {% block content %}
-
+{% endblock %} 
+{% block content %}
 <div class="wider container">
     <div class="row">
         <div class="col s12 m8 offset-m2">
@@ -41,10 +40,10 @@
                                         <label for="pwd_check">Password Check<span class="red-text"><b>{{ p_error }}</b></span></label>
                                     </div>
                                     <span class="col s12 center">
-                                    <button class="btn-small waves-effect waves-light green white-text" type="submit" name="action">
-                                        Sign Up<i class="material-icons right">how_to_reg</i>
-                                    </button>
-                                </span>
+                                        <button class="btn-small waves-effect waves-light green white-text" type="submit" name="action">
+                                            Sign Up<i class="material-icons right">how_to_reg</i>
+                                        </button>
+                                    </span>
                                 </div>
                             </form>
                         </div>

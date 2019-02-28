@@ -1,12 +1,11 @@
-{% extends 'user_home.html' %} {% block link_select %}
-
-  <li class="hide-on-small-only"><a href="{{url_for('user_home')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
-  <li class="hide-on-small-only"><a href="{{url_for('add_comics')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a></li>
-  <li class="show-on-small hide-on-med-and-up"><a href="{{url_for('user_home')}}"><i class="material-icons">inbox</i></a></li>
-  <li class="show-on-small hide-on-med-and-up"><a href="{{url_for('add_comics')}}"><i class="material-icons">move_to_inbox</i></a></li>
-
-{% endblock %} {% block user_content %}
-
+{% extends 'user_home.html' %} 
+{% block link_select %}
+<li class="hide-on-small-only"><a href="{{url_for('user_home')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
+<li class="hide-on-small-only"><a href="{{url_for('add_comics')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a></li>
+<li class="show-on-small hide-on-med-and-up"><a href="{{url_for('user_home')}}"><i class="material-icons">inbox</i></a></li>
+<li class="show-on-small hide-on-med-and-up"><a href="{{url_for('add_comics')}}"><i class="material-icons">move_to_inbox</i></a></li>
+{% endblock %} 
+{% block user_content %}
 <div class="col s12 m10 offset-m1 l8 offset-l2 no-padding">
     <div class="card-panel no-padding blue-grey lighten-1 no-margin one-px-border">
         <table>
@@ -19,37 +18,41 @@
 </div>
 <div class="row"></div>
 <div class="card blue-grey lighten-1 no-margin one-px-border">
-    <div class="card-content col-padding white-text">
-        <span class="hide-on-small-only card-title center blue-grey z-depth-1 one-px-border">New Releases ({{ week_ago }} until {{ today }})</span></div>
+    <div class="card-content col-padding-excl-bottom white-text">
+        <span class="hide-on-small-only card-title center blue-grey z-depth-1 one-px-border">New Releases ({{ week_ago }} until {{ today }})</span>
+    </div>
     <div class="row no-margin">
-        {% for comic in new_comics %} {% if not comic.comic_id in check_list %}
+        {% for comic in new_comics %} 
+        {% if not comic.comic_id in check_list %}
         <div id="{{comic.comic_id}}-card" class="col s12 m6 l4">
             <div class="card horizontal">
                 <div class="card-image">
-                    <a href="{{comic.comic_image_fs}}" data-lightbox="Image-{{comic.comic_id}}-img" data-title="{{comic.comic_title}}"><img src="{{comic.comic_image}}" height="120" alt="{{comic.comic_title}}"></a>
+                    <a href="{{comic.comic_image_fs}}" data-lightbox="Image-{{comic.comic_id}}-img" data-title="{{comic.comic_title}}">
+                        <img src="{{comic.comic_image}}" height="120" alt="{{comic.comic_title}}">
+                    </a>
                 </div>
                 <div class="card-stacked">
                     <div class="flip-colour-{{comic.comic_id}} card-content no-padding title-align blue-grey lighten-2 white-text">
                         {{comic.comic_title}}<br>
-                        <sup class="blue-grey-text text-darken-2">on sale date: {{ comic.on_sale_date }}</sup>
+                        <sup class="blue-grey-text text-darken-2">on sale date: {{ comic.on_sale_date }}</sup><br>
                     </div>
                     <div class="flip-colour-{{comic.comic_id}} card-action no-padding blue-grey lighten-2 white-text">
                         <div class="center-checkbox blue-grey">
                             <form class="right" action="{{url_for('add_to_list')}}" method="POST">
-                                <span id="cb-text-{{comic.comic_id}}" class="white-text smaller-font">Add To List</span>
+                                <span id="cb-text-{{comic.comic_id}}" class="white-text add-mark-and-delete">Add To List</span>
                                 <label for="{{comic.comic_id}}">
-                                        <input type="checkbox" class="addCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
-                                        <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span>
-                                    </label>
+                                    <input type="checkbox" class="addCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
+                                    <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span>
+                                </label>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {% endif %} {% endfor %}
+        {% endif %}
+        {% endfor %}
     </div>
 </div>
 </div>
-
 {% endblock %}

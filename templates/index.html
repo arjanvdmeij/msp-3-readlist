@@ -1,12 +1,11 @@
-{% extends 'base.html' %} {% block nav_content %}
-
+{% extends 'base.html' %} 
+{% block nav_content %}
 <ul id="nav-mobile" class="right">
   <li><a href="{{url_for('sign_up')}}" class="hide-on-small-only waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
   <li><a href="{{url_for('sign_in')}}" class="hide-on-small-only waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
 </ul>
-
-{% endblock %} {% block content %}
-
+{% endblock %} 
+{% block content %}
 <div class="wider container">
   <div class="row">
     <div class="col s12 m8 offset-m2">
@@ -18,16 +17,16 @@
         </div>
       </div>
       <div class="card blue-grey lighten-3">
-        <div class="card-content col-padding white-text one-px-border">
+        <div class="card-content col-padding-excl-bottom white-text one-px-border">
           <span class="card-title center">About</span>
           <div class="row no-bottom-margin">
             <div class="col s12">
               <div class="card-panel">
-                <span class="blue-grey-text"><span class="white red-text center"><h6>On mobile devices, this site works best in landscape.</h6></span><p class="center fsize-plus">
+                <span class="blue-grey-text"><span class="white red-text center"><h6>On mobile devices, this site works best in landscape.</h6></span><p class="center big-font">
                   <i class="material-icons red-text">stay_primary_portrait</i><i class="material-icons">arrow_right_alt</i><i class="material-icons green-text">stay_primary_landscape</i>
                   <p class="center"><strong>** Actual comics aren't here! **</strong></p>
                   <p class="center"><strong>** Covers and titles only **</strong></p>
-                </p><span class="smaller-font"> Upon registration, you can start creating a list of comics you want to read. New comics arrive weekly, in line with Marvel's schedule of release. Comics read can be marked, 
+                </p><span class="instruction-text"> Upon registration, you can start creating a list of comics you want to read. New comics arrive weekly, in line with Marvel's schedule of release. Comics read can be marked, 
                       creating your own archive of comics read. All comic covers presented can be zoomed in on.</span>
                 </span>
               </div>
@@ -36,7 +35,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-content col-padding2 blue-grey lighten-3 one-px-border">
+        <div class="card-content col-padding-all blue-grey lighten-3 one-px-border">
           <div class="row no-bottom-margin">
             <div class="col s12">
               <a href="{{url_for('sign_up')}}" class="left btn-small waves-effect waves-light green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a>
@@ -48,6 +47,4 @@
     </div>
   </div>
 </div>
-</div>
-
 {% endblock %}

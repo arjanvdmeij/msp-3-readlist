@@ -1,3 +1,4 @@
+/* -------------------------------------- Custom additions to CSS: */
 .center-checkbox {
     display: grid;
     width: 100%;
@@ -11,7 +12,7 @@
     padding-left: 15px;
 }
 
-.fsize-plus i {
+.big-font i {
     font-size: 3rem;
 }
 
@@ -19,7 +20,10 @@
     width: 90%;
 }
 
-.smaller-font {
+.smaller-font,
+.add-mark-and-delete,
+.instruction-text,
+.back-top-text {
     font-size: 0.9rem;
     margin-right: 0.45rem;
 }
@@ -28,7 +32,7 @@
     border: 1px solid #ddd;
 }
 
-.one-px-border--bottom {
+.one-px-border-bottom-only {
     border-bottom: 0;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
@@ -37,11 +41,6 @@
 
 .no-margin {
     margin: 0 !important;
-}
-
-.my-5 {
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .no-padding {
@@ -65,39 +64,43 @@
     width: 98% !important;
 }
 
-.full-width {
-    width: 100%;
-}
-
-.left-margin-40 {
+.margin-display-name {
     margin-left: 40px;
 }
 
-.lr-margin {
-    margin-left: 10px !important;
-    margin-right: 10px !important;
+.col-padding-excl-bottom {
+    padding: .75rem .75rem 0 !important;
 }
 
-.col-padding {
-    padding: 0.75rem .75rem 0 !important;
-}
-
-.col-padding2 {
-    padding: 0.75rem .75rem !important;
+.col-padding-all {
+    padding: .75rem .75rem !important;
 }
 
 .nothing-here img {
     border: 1px solid #ddd !important;
 }
 
-.del-user{
+.del-user {
     cursor: pointer;
 }
+
 tr {
     border: 0;
 }
 
 /* -------------------------------------- Overrides for Materialize defaults: */
+
+nav ul a {
+    transform: rotate(0deg);
+    transition: transform 8s;
+}
+
+nav ul a:hover {
+    background-color: transparent;
+    color: #cfd8dc;
+    transform: rotate(360deg);
+    text-shadow: 0 3px 3px rgba(0,0,0,0.14), 0 1px 7px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.2);
+}
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     margin-right: 0;
@@ -139,8 +142,6 @@ input[type=password]:not(.browser-default):focus:not([readonly])+label {
 .btn-small.disabled,
 .btn-flat.disabled,
 .btn-small:disabled,
-.btn-small:disabled,
-.btn-small[disabled],
 .btn-small[disabled] {
     background-color: #cfd8dc !important;
     color: #607d8b !important;

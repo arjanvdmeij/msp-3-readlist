@@ -1,12 +1,11 @@
-{% extends 'user_home.html' %} {% block link_select %}
-
+{% extends 'user_home.html' %}
+{% block link_select %}
 <li class="hide-on-small-only"><a href="{{url_for('user_home')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
 <li class="hide-on-small-only"><a href="{{url_for('add_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a></li>
 <li class="show-on-small hide-on-med-and-up"><a href="{{url_for('user_home')}}"><i class="material-icons">inbox</i></a></li>
 <li class="show-on-small hide-on-med-and-up"><a href="{{url_for('add_comics')}}"><i class="material-icons">move_to_inbox</i></a></li>
-
-{% endblock %} {% block user_content %}
-
+{% endblock %} 
+{% block user_content %}
 <div class="row no-bottom-margin">
     <div class="col s12 m6">
         <div class="card no-margin blue-grey lighten-5">
@@ -26,7 +25,7 @@
                         <tr>
                             <td>
                                 <button class="btn-small waves-effect waves-light blue-grey white-text one-px-border" type="submit" name="action">
-                                Submit<i class="material-icons right">done</i>
+                                    Submit<i class="material-icons right">done</i>
                                 </button>
                             </td>
                         </tr>
@@ -63,7 +62,7 @@
                         <tr>
                             <td>
                                 <button class="btn-small waves-effect waves-light blue-grey white-text one-px-border" type="submit" name="action">
-                                Submit<i class="material-icons right">done</i>
+                                    Submit<i class="material-icons right">done</i>
                                 </button>
                             </td>
                         </tr>
@@ -73,6 +72,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}
