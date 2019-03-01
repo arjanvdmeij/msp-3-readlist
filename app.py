@@ -299,7 +299,10 @@ def add_to_list():
 def sign_up():
     """ the registration page """
     try:
-        return render_template('sign_up.html')
+        if session['user']:
+            return redirect(url_for('index'))
+        else:
+            return render_template('sign_up.html')
     except:
         return redirect(url_for('index'))
     
@@ -398,7 +401,10 @@ def sign_up_submit():
 def sign_in():
     """ user sign in page """
     try:
-        return render_template('sign_in.html')
+        if session['user']:
+            return redirect(url_for('index'))
+        else:
+            return render_template('sign_in.html')
     except:
         return redirect(url_for('index'))
     
