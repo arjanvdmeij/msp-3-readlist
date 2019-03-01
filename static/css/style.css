@@ -1,4 +1,5 @@
 /* -------------------------------------- Custom additions to CSS: */
+
 .center-checkbox {
     display: grid;
     width: 100%;
@@ -88,19 +89,19 @@ tr {
     border: 0;
 }
 
-/* -------------------------------------- Overrides for Materialize defaults: */
-
-nav ul a {
+nav ul .spin-cog {
     transform: rotate(0deg);
     transition: transform 8s;
 }
 
-nav ul a:hover {
+nav ul .spin-cog:hover {
     background-color: transparent;
     color: #cfd8dc;
     transform: rotate(360deg);
     text-shadow: 0 3px 3px rgba(0,0,0,0.14), 0 1px 7px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.2);
 }
+
+/* -------------------------------------- Overrides for Materialize defaults: */
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     margin-right: 0;
