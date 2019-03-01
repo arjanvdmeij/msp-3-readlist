@@ -26,6 +26,7 @@ $(document).ready(function() {
             $(`#cb-text-${comic_id}`).text('Added');
             $(`#${comic_id}`).attr('disabled', 'disabled');
             $(`#${comic_id}-card`).fadeTo(500,.5);
+            $(`#lboxlink-${comic_id}`).removeAttr('href').removeAttr('data-lightbox').removeAttr('data-title');
             $(`.flip-colour-${comic_id}`).removeClass('lighten-2').addClass('lighten-3');
         });
     });
@@ -45,6 +46,7 @@ $(document).ready(function() {
             $(`#cb-text-${comic_id}`).text('Marked Read');
             $(`#${comic_id}`).attr('disabled', 'disabled');
             $(`#${comic_id}-card`).fadeTo(500,.5);
+            $(`#lboxlink-${comic_id}`).removeAttr('href').removeAttr('data-lightbox').removeAttr('data-title');
             $(`.flip-colour-${comic_id}`).removeClass('lighten-2').addClass('lighten-3');
         });
     });
@@ -64,6 +66,7 @@ $(document).ready(function() {
             $(`#cb-text-${comic_id}`).text('Deleted From List');
             $(`#${comic_id}`).attr('disabled', 'disabled');
             $(`#${comic_id}-card`).fadeTo(500,.5);
+            $(`#lboxlink-${comic_id}`).removeAttr('href').removeAttr('data-lightbox').removeAttr('data-title');
             $(`.flip-colour-${comic_id}`).removeClass('lighten-2').addClass('lighten-3');
         });
     });
@@ -85,6 +88,5 @@ $(document).ready(function() {
             $(`.flip-colour-${user_name}`).removeClass('lighten-2').addClass('lighten-3');
         });
     });
-    
 });
 
