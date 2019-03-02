@@ -54,7 +54,7 @@ Additionally, **jQuery**, version 3.3.1, is used to aid with marking comics.<br>
 Styling is done using [Materialize](https://materializecss.com), version 1.0.0.<br>
 <sup>As little additional CSS as needed was used. The majority is straight Materialize. </sup>
 
-Pop-up images make use of [Lightbox](https://lokeshdhakar.com/projects/lightbox2/).
+Pop-up images make use of [Lightbox](https://lokeshdhakar.com/projects/lightbox2/).<br>
 The site can be viewed [HERE](https://readlist-msp3.herokuapp.com).
 
 ## Features
@@ -110,13 +110,13 @@ Git is used for the deployment of the application. The order of steps is:
 - Heroku kicks off a new build based on the changes
 
 Within the code, measures are taken to ensure that the application uses the correct data for the environment it's running in.
-The config file reads environment variables, one of which is the FLASK_ENV variable.
-This is set to 'development' and 'production' for the respective environments.
-Based on the host the application runs on, this then triggers the correct settings.
+The config file reads environment variables when needed, Flask itself grabs one directly from the os: the FLASK_ENV variable.
+This is set to 'development' and (explicitly to) 'production' for the respective environments.
+Based on the host the application runs on, the config.py offers the correct database link.
 
 The one thing that is identical between environments are the settings for the Marvel API, as this is always the same.
 
-The update_comics script is run manually on Cloud 9, since cron jobs won't run in stopped environemnts.
+The update_comics script is run manually on Cloud 9, since cron jobs won't run in stopped environments.
 For the production environment, the Heroku Scheduler has been added and set to run daily at 5AM to check for new additions to available comics.
 
 ## File structure
@@ -149,6 +149,7 @@ The remaining small files are used by Lightbox.
     - Heroku scheduler logging snippet for update script available in wireframe and user story document
   - Unit tests:
     - for a result, see the word document in the root
+    - the tests themselves are available in the tests.py file
   
 - Testing was done on the following browsers:
   - Safari
