@@ -430,7 +430,6 @@ def sign_in_submit():
             pwd_hash_check = check_password_hash(user['pwd'], pwd)
             if  pwd_hash_check:
                 session['user'] = uname
-                print(session['user'])
                 if session['user'] == config.admin_name:
                     return redirect(url_for('admin'))
                 return redirect(url_for('index'))
