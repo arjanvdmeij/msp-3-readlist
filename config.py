@@ -37,6 +37,7 @@ marvel_url = "https://gateway.marvel.com:443/v1/public/comics?"\
     + "&apikey=" + marvel['pub']\
     + "&hash=" + str(key_hash)
 
+""" Explicit check for environment to use the correct database """
 if os.getenv('C9_HOSTNAME'):
           mongodb = os.getenv('mongodb_dev')
 else:
