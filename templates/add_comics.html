@@ -42,7 +42,7 @@
                                 <span id="cb-text-{{comic.comic_id}}" class="white-text add-mark-and-delete">Add To List</span>
                                 <label for="{{comic.comic_id}}">
                                     <input type="checkbox" class="addCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
-                                    <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span>
+                                    <span>&nbsp;</span>
                                 </label>
                             </form>
                         </div>
@@ -52,6 +52,9 @@
         </div>
         {% endif %}
         {% endfor %}
+        <div class="col s12 blue-grey white-text center one-px-border-top-only add-padding-top-bottom">
+            Data provided by Marvel. © 2019 MARVEL
+        </div>
     </div>
 </div>
 </div>

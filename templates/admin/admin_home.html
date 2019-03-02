@@ -1,9 +1,9 @@
 {% extends 'base.html' %} 
 {% block nav_content %}
-<ul id="nav-mobile" class="right">
+<ul class="right">
     <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">x</a></li>
 </ul>
-<ul id="nav-mobile" class="left margin-display-name">
+<ul class="left margin-display-name">
     <li><span class="blue-grey-text text-lighten-3">User: </span><span class="yellow-text"><strong>{{ display_name }}</strong></span></li>
 </ul>
 {% endblock %} 
@@ -38,7 +38,7 @@
                                             <button type="button" class="del-user btn-small waves-effect waves-light blue-grey white-text one-px-border" id="{{user.user_name}}" name="{{user.user_name}}">
                                                 <i class="material-icons white-text">delete_forever</i>
                                             </button>
-                                            <span id="del-{{user.user_name}}" class="white-text">&nbsp;</span>
+                                            <span>&nbsp;</span>
                                             </label>
                                         </form>
                                     </td>

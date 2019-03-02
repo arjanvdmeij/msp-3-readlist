@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block nav_content %}
-<ul id="nav-mobile" class="right">
+<ul class="right">
     <li><a href="{{url_for('index')}}" class="waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons">home</i></a></li>
     <li><a href="{{url_for('sign_up')}}" class="hide-on-small-only waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
     <li><a href="{{url_for('sign_in')}}" class="disabled hide-on-small-only waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-content blue-grey lighten-3 one-px-border">
                     <div class="index-img">
-                        <img src="{{url_for('static', filename='images/index-img.jpg')}}">
+                        <img src="{{url_for('static', filename='images/index-img.jpg')}}" alt="Comic Reading List Logo">
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block nav_content %}
-<ul id="nav-mobile" class="right">
+<ul class="right">
   {% block link_select %}
   <li class="hide-on-small-only"><a href="{{url_for('user_home')}}" class="disabled menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">My Comics List</a></li>
   <li class="hide-on-small-only"><a href="{{url_for('add_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a></li>
@@ -9,7 +9,7 @@
   {% endblock %}
   <li><a href="{{url_for('log_out')}}" class="waves-effect waves-light btn-small red lighten-1 white-text one-px-border">x</a></li>
 </ul>
-<ul id="nav-mobile" class="left margin-display-name">
+<ul class="left margin-display-name">
   <li class="hide-on-small-only"><span class="blue-grey-text text-lighten-3">User: </span><strong>{{ display_name }}</strong></li>
   <li class="hide-on-small-only"><a class="spin-cog" href="{{url_for('user_settings')}}"><i class="material-icons">settings</i></a></li>
 </ul>
@@ -42,7 +42,7 @@
           {% if comics_total == 0 %}
           <div class="col s12">
             <div class="card blue-grey lighten-1">
-              <div class="card-content center blue-grey lighten-2 one-px-border-bottom-only">
+              <div class="card-content center blue-grey lighten-2 one-px-border-excl-bottom">
                 <a href="{{url_for('add_comics')}}" class="menu-link waves-effect waves-light btn-small blue-grey white-text one-px-border">Add Comics</a>
               </div>
               <div class="card-image nothing-here blue-grey lighten-3">
@@ -69,7 +69,7 @@
                       <span id="cb-text-{{comic.comic_id}}" class="white-text add-mark-and-delete">Mark As Read</span>
                       <label for="{{comic.comic_id}}">
                       <input type="checkbox" class="markCheckbox white-text" id="{{comic.comic_id}}" name="{{comic.comic_id}}" value="{{comic._id}}">
-                      <span id="cb-text-{{comic.comic_id}}" class="white-text">&nbsp;</span></label>
+                      <span>&nbsp;</span></label>
                     </form>
                   </div>
                 </div>
@@ -77,6 +77,9 @@
             </div>
           </div>
           {% endfor %} 
+          <div class="col s12 blue-grey white-text center one-px-border-top-only add-padding-top-bottom">
+            Data provided by Marvel. © 2019 MARVEL
+          </div>
           {% endif %}
         </div>
       </div>

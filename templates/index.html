@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block nav_content %}
-<ul id="nav-mobile" class="right">
+<ul class="right">
   <li><a href="{{url_for('sign_up')}}" class="hide-on-small-only waves-effect waves-light btn-small green white-text one-px-border"><i class="material-icons left">how_to_reg</i> Sign Up</a></li>
   <li><a href="{{url_for('sign_in')}}" class="hide-on-small-only waves-effect waves-light btn-small blue-grey white-text one-px-border"><i class="material-icons left">person</i> Sign In</a></li>
 </ul>
@@ -12,7 +12,7 @@
       <div class="card">
         <div class="card-content blue-grey lighten-3 one-px-border">
           <div class="index-img">
-            <img src="{{url_for('static', filename='images/index-img.jpg')}}">
+            <img src="{{url_for('static', filename='images/index-img.jpg')}}" alt="Comic Reading List Logo">
           </div>
         </div>
       </div>
@@ -21,14 +21,17 @@
           <span class="card-title center">About</span>
           <div class="row no-bottom-margin">
             <div class="col s12">
-              <div class="card-panel">
-                <span class="blue-grey-text"><span class="white red-text center"><h6>On mobile devices, this site works best in landscape.</h6></span><p class="center big-font">
-                  <i class="material-icons red-text">stay_primary_portrait</i><i class="material-icons">arrow_right_alt</i><i class="material-icons green-text">stay_primary_landscape</i>
+              <div class="card-panel blue-grey-text">
+                    <h6 class="white red-text center">On mobile devices, this site works best in landscape.</h6>
+                    <p class="center big-font">
+                      <i class="material-icons red-text">stay_primary_portrait</i>
+                      <i class="material-icons">arrow_right_alt</i>
+                      <i class="material-icons green-text">stay_primary_landscape</i>
+                    </p>
                   <p class="center"><strong>** Actual comics aren't here! **</strong></p>
                   <p class="center"><strong>** Covers and titles only **</strong></p>
-                </p><span class="instruction-text"> Upon registration, you can start creating a list of comics you want to read. New comics arrive weekly, in line with Marvel's schedule of release. Comics read can be marked, 
-                      creating your own archive of comics read. All comic covers presented can be zoomed in on.</span>
-                </span>
+                  <p class="instruction-text"> Upon registration, you can start creating a list of comics you want to read. New comics arrive weekly, in line with Marvel's schedule of release. Comics read can be marked, 
+                      creating your own archive of comics read. All comic covers presented can be zoomed in on.</p>
               </div>
             </div>
           </div>

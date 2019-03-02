@@ -33,10 +33,14 @@
     border: 1px solid #ddd;
 }
 
-.one-px-border-bottom-only {
+.one-px-border-excl-bottom {
     border-bottom: 0;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.one-px-border-top-only {
     border-top: 1px solid #ddd;
 }
 
@@ -46,6 +50,10 @@
 
 .no-padding {
     padding: 0 !important;
+}
+
+.add-padding-top-bottom {
+    padding: 5px 0 !important;
 }
 
 .no-bottom-margin {
