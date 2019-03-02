@@ -48,12 +48,13 @@ def user_home():
             coll = mongo.db.user_comic_list
             _user_unread = coll.find({ "user_name" : session['user'],
                                     "comic_status" : { "$eq" : "unread" } })
-            _count = _user_unread.count_documents()
+            _count = _user_unread.count()
             return render_template('user_home.html',
                                     user_unread=_user_unread,
                                     comics_total=_count,
                                     display_name=_nice)
         else:
+            print('layer 2 option 2')
             return render_template('index.html')
     except:
         return render_template('401.html')
@@ -429,6 +430,7 @@ def sign_in_submit():
             pwd_hash_check = check_password_hash(user['pwd'], pwd)
             if  pwd_hash_check:
                 session['user'] = uname
+                print(session['user'])
                 if session['user'] == config.admin_name:
                     return redirect(url_for('admin'))
                 return redirect(url_for('index'))

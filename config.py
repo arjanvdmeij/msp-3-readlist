@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 from flask import Flask
 from flask_pymongo import PyMongo
 
-
 secret_key = os.getenv('secret_key')
 
 
@@ -37,6 +36,7 @@ marvel_url = "https://gateway.marvel.com:443/v1/public/comics?"\
     + "&apikey=" + marvel['pub']\
     + "&hash=" + str(key_hash)
 
+
 """ Explicit check for environment to use the correct database """
 if os.getenv('C9_HOSTNAME'):
           mongodb = os.getenv('mongodb_dev')
@@ -59,10 +59,4 @@ app.config["MONGO_URI"] = mongodb
 mongo = PyMongo(app)
 admin_name = os.getenv('admin_name')
 admin_display_name = os.getenv('admin_display_name')
-admin_coll = mongo.db.jlkagjhflakjs7845oluhgfq
-
-
-
-
-
-
+admin_coll = mongo.db.admin_base
