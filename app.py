@@ -299,7 +299,7 @@ def add_to_list():
 def sign_up():
     """ the registration page """
     try:
-        if session['user']:
+        if 'user' in session:
             return redirect(url_for('index'))
         else:
             return render_template('sign_up.html')
@@ -388,9 +388,9 @@ def sign_up_submit():
                      "display_name" : display_name,
                      "pwd" : pwd_hash, 
                      "creation_date" : creation_date }
-        users.insert(new_user)
+        users.insert_one(new_user)
         # Add user to admin table as well with less information
-        config.admin_coll.insert({ "user_name" : uname, 
+        config.admin_coll.insert_one({ "user_name" : uname, 
                                    "display_name" : display_name })
         return redirect(url_for('index'))
     except:
@@ -401,7 +401,7 @@ def sign_up_submit():
 def sign_in():
     """ user sign in page """
     try:
-        if session['user']:
+        if 'user' in session:
             return redirect(url_for('index'))
         else:
             return render_template('sign_in.html')
@@ -516,9 +516,9 @@ def adm_del_user():
             posted = request.json
             coll_1 = mongo.db.users
             coll_2 = mongo.db.user_comic_list
-            coll_1.remove({'user_name': posted['user_name']})
-            coll_2.remove({'user_name': posted['user_name']})
-            config.admin_coll.remove({'user_name': posted['user_name']})
+            coll_1.delete_one({'user_name': posted['user_name']})
+            coll_2.delete_many({'user_name': posted['user_name']})
+            config.admin_coll.delete_one({'user_name': posted['user_name']})
             user_list = config.admin_coll.find({"$query":{}, 
                                             "$orderby" : { "user_name": 1}})
             return render_template('admin/admin_home.html',
@@ -531,14 +531,7 @@ def adm_del_user():
 
 
 if __name__ == '__main__':
-    """ decide whether or not this is development or production """
-    if os.getenv('C9_HOSTNAME'):
-        app.secret_key = config.secret_key
-        app.run(host=os.getenv('IP'), 
-                port=int(os.getenv('PORT')),
-                debug=True)
-    else:
-        app.secret_key = config.secret_key
-        app.run(host=os.getenv('IP'), 
-                port=int(os.getenv('PORT')),
-                )
+    app.secret_key = config.secret_key
+    app.run(host=os.getenv('IP'), 
+            port=int(os.getenv('PORT')),
+            )
