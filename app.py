@@ -48,7 +48,7 @@ def user_home():
             coll = mongo.db.user_comic_list
             _user_unread = coll.find({ "user_name" : session['user'],
                                     "comic_status" : { "$eq" : "unread" } })
-            _count = _user_unread.count()
+            _count = _user_unread.count_documents()
             return render_template('user_home.html',
                                     user_unread=_user_unread,
                                     comics_total=_count,
@@ -275,6 +275,8 @@ def add_to_list():
     """
     try:
         if 'user' in session:
+            print(request)
+            print(request.json)
             posted = request.json
             coll_1 = mongo.db.comics
             coll_2 = mongo.db.user_comic_list
