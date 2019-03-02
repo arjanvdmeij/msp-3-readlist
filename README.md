@@ -75,6 +75,9 @@ The site can be viewed [HERE](https://readlist-msp3.herokuapp.com).
   - Character(s) information
   - Comics information (price, link to buy/read)
   - Series information
+- Extend Admin page
+  - Statistics on user creation
+  - Add last_logon information to users table and make it visible
 
 ## Tech Used
 
@@ -95,6 +98,15 @@ The site can be viewed [HERE](https://readlist-msp3.herokuapp.com).
 - [Heroku](https://dashboard.heroku.com)
   - Used to host the site
   - Heroku Scheduler add-on used to run daily comics update script
+
+### Database setup
+The database used is a NoSQL MongoDB.
+The schema is short:
+- users
+- comics
+- user_comic_list
+- admin_base
+Extended information on the collections can be found within the Word document in the root of the repository.
 
 ## Deployment
 Two separate databases exist, one for development and one for production.
